@@ -68,6 +68,22 @@
       box-shadow: 2px 2px 0px 0px #0f172a;
     }
 
+    .retro-button {
+      border: 2px solid #0f172a;
+      box-shadow: 3px 3px 0px 0px #0f172a;
+      transition: all 0.15s ease;
+    }
+
+    .retro-button:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0px 0px #0f172a;
+    }
+
+    .retro-button:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px 0px #0f172a;
+    }
+
     /* Toast Notification */
     #toast {
       transition: opacity 0.2s ease, transform 0.2s ease;
@@ -105,6 +121,26 @@
 
     .animate-wobble {
       animation: pixel-wobble 0.35s infinite ease-in-out;
+    }
+
+    /* Cheek Blush Pulse Animation */
+    @keyframes blushPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    
+    .animate-blush {
+      animation: blushPulse 1s infinite ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    
+    .animate-shake {
+      animation: shake 0.4s ease-in-out;
     }
 
     /* Pixelated progress bar styling */
@@ -172,16 +208,44 @@
     <!-- Profile Header Section -->
     <header class="text-center w-full mb-8 flex flex-col items-center">
       
-      <!-- Pixel Avatar Frame -->
+      <!-- Pixel Avatar Frame with Interactive NPC Trigger -->
       <div class="relative group mb-6">
-        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105">
+        <!-- Floating Speech / Lockout Bubble -->
+        <div 
+          id="annoyanceSpeech" 
+          class="hidden absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 text-white font-mono text-sm px-3 py-1 border-2 border-slate-900 shadow-md z-30 pointer-events-none"
+        >
+          ouch!
+        </div>
+
+        <div 
+          id="profileFrame"
+          onclick="onPfpClick()"
+          title="Click to talk to Krushna!"
+          class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105 cursor-pointer relative"
+        >
           <img 
+            id="mainPfpImg"
             src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
             alt="Krushna Profile Picture"
             class="w-full h-full object-cover rounded-none bg-slate-100"
             onerror="this.onerror=null; this.src='https://placehold.co/128x128/ffffff/0f172a?text=Krushna';"
           />
+
+          <!-- Main PFP Blush Overlay -->
+          <div id="mainBlushOverlay" class="hidden absolute inset-0 flex items-center justify-between px-4 pt-4 pointer-events-none animate-blush">
+            <span class="w-4 h-3 bg-pink-500/80 rounded-full blur-[0.5px]"></span>
+            <span class="w-4 h-3 bg-pink-500/80 rounded-full blur-[0.5px]"></span>
+          </div>
+
+          <!-- Lock Icon overlay when AFK/Locked -->
+          <div id="lockIcon" class="hidden absolute inset-0 bg-slate-900/70 flex items-center justify-center text-white">
+            <i class="fa-solid fa-lock text-2xl"></i>
+          </div>
         </div>
+
+        <!-- Status Indicator Dot -->
+        <div id="npcStatusTag" class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-slate-900" title="Online"></div>
       </div>
 
       <!-- Pixel Username -->
@@ -406,6 +470,48 @@
 
   </main>
 
+  <!-- Retro NPC Dialogue Modal Overlay -->
+  <div id="dialogOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[10002] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="dialogBox" class="bg-white w-full max-w-md p-5 border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] transform scale-95 transition-transform duration-300">
+      
+      <!-- NPC Header with Avatar and Name -->
+      <div class="flex items-center gap-3 border-b-2 border-slate-900 pb-3 mb-4">
+        <div class="relative w-12 h-12 border-2 border-slate-900 overflow-hidden bg-slate-100 flex-shrink-0">
+          <img src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" alt="NPC Avatar" class="w-full h-full object-cover">
+          <div id="blushOverlay" class="hidden absolute inset-0 flex items-center justify-between px-1.5 pt-2 pointer-events-none animate-blush">
+            <span class="w-2.5 h-2.5 bg-pink-500/90 rounded-full blur-[0.5px]"></span>
+            <span class="w-2.5 h-2.5 bg-pink-500/90 rounded-full blur-[0.5px]"></span>
+          </div>
+        </div>
+        <div class="flex-grow">
+          <h4 class="font-pixel text-slate-900 text-xs flex items-center gap-2">
+            KRUSHNA <span class="text-[9px] bg-slate-200 text-slate-700 px-1.5 py-0.5 border border-slate-900">NPC</span>
+          </h4>
+          <span class="text-xs text-slate-500 font-mono">Visual Creator & Editor</span>
+        </div>
+        <button onclick="closeNpcDialog()" class="text-slate-500 hover:text-slate-900 text-xl font-bold p-1 font-mono">&times;</button>
+      </div>
+
+      <!-- Typewriter Text Box -->
+      <div class="bg-slate-100 border-2 border-slate-900 p-3 mb-4 min-h-[70px] flex items-center">
+        <p id="typewriterText" class="font-mono text-xl text-slate-900 leading-relaxed"></p>
+      </div>
+
+      <!-- Dialogue Options -->
+      <div class="flex flex-col gap-2 font-mono text-lg">
+        <button onclick="handleChoice('bio')" class="retro-button w-full text-left p-2.5 bg-slate-50 hover:bg-slate-200 font-bold text-slate-900">
+          💬 What's Your Biography?
+        </button>
+        <button onclick="handleChoice('work')" class="retro-button w-full text-left p-2.5 bg-slate-50 hover:bg-slate-200 font-bold text-slate-900">
+          💼 Can You Work For Me?
+        </button>
+        <button onclick="handleChoice('love')" class="retro-button w-full text-left p-2.5 bg-pink-50 hover:bg-pink-100 font-bold text-pink-700">
+          ❤️ I Love You
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Interactive Water Canvas Container at Bottom -->
   <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4 z-10">
     <canvas id="waterCanvas"></canvas>
@@ -482,7 +588,130 @@
       }, 2200);
     }
 
-    // 3. Interactive Black Background Doodles Canvas (Push Aside on Interaction)
+    // 3. NPC Dialogue System & PFP Annoyance Counter
+    let clickCount = 0;
+    let isLockedCount = false;
+    let typingTimer = null;
+
+    const annoyanceMessages = [
+      "ouch!",
+      "ah!",
+      "ayo chill bro...",
+      "stop poking me! 😠",
+      "bruh..."
+    ];
+
+    function onPfpClick() {
+      if (isLockedCount) return;
+
+      clickCount++;
+
+      const annoyanceSpeech = document.getElementById('annoyanceSpeech');
+      const profileFrame = document.getElementById('profileFrame');
+      const lockIcon = document.getElementById('lockIcon');
+      const npcStatusTag = document.getElementById('npcStatusTag');
+
+      if (clickCount >= 7) {
+        isLockedCount = true;
+        closeNpcDialog();
+
+        profileFrame.classList.add('animate-shake');
+        annoyanceSpeech.textContent = "( he left the chat... 🚪🏃💨 )";
+        annoyanceSpeech.classList.remove('hidden');
+        lockIcon.classList.remove('hidden');
+
+        if (npcStatusTag) npcStatusTag.classList.replace('bg-emerald-500', 'bg-red-500');
+
+        setTimeout(() => {
+          profileFrame.classList.remove('animate-shake');
+        }, 600);
+
+        setTimeout(() => {
+          isLockedCount = false;
+          clickCount = 0;
+          annoyanceSpeech.classList.add('hidden');
+          lockIcon.classList.add('hidden');
+          if (npcStatusTag) npcStatusTag.classList.replace('bg-red-500', 'bg-emerald-500');
+        }, 8000);
+
+        return;
+      } else if (clickCount >= 2) {
+        const randomMsg = annoyanceMessages[(clickCount - 2) % annoyanceMessages.length];
+        showFloatingAnnoyance(randomMsg);
+      }
+
+      openNpcDialog("wsp up ?");
+    }
+
+    function showFloatingAnnoyance(msg) {
+      const speech = document.getElementById('annoyanceSpeech');
+      speech.textContent = msg;
+      speech.classList.remove('hidden');
+      setTimeout(() => {
+        if (!isLockedCount) speech.classList.add('hidden');
+      }, 1800);
+    }
+
+    function openNpcDialog(initialText) {
+      const overlay = document.getElementById('dialogOverlay');
+      const box = document.getElementById('dialogBox');
+
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100');
+      box.classList.remove('scale-95');
+      box.classList.add('scale-100');
+
+      typewriteText(initialText);
+    }
+
+    function closeNpcDialog() {
+      const overlay = document.getElementById('dialogOverlay');
+      const box = document.getElementById('dialogBox');
+
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      box.classList.remove('scale-100');
+      box.classList.add('scale-95');
+    }
+
+    function typewriteText(text) {
+      const target = document.getElementById('typewriterText');
+      clearTimeout(typingTimer);
+      target.textContent = '';
+      let index = 0;
+
+      function step() {
+        if (index < text.length) {
+          target.textContent += text.charAt(index);
+          index++;
+          typingTimer = setTimeout(step, 30);
+        }
+      }
+      step();
+    }
+
+    function handleChoice(type) {
+      const mainBlush = document.getElementById('mainBlushOverlay');
+      const npcBlush = document.getElementById('blushOverlay');
+
+      if (type === 'bio') {
+        typewriteText("I'm Krushna! Artist, Thumbnail Designer & Video Editor crafting cool visual stuff & gaming content 🎨✨");
+      } else if (type === 'work') {
+        typewriteText("no haha (lol)");
+      } else if (type === 'love') {
+        mainBlush.classList.remove('hidden');
+        npcBlush.classList.remove('hidden');
+
+        typewriteText("oh really , thanks ! 😳❤️");
+
+        setTimeout(() => {
+          mainBlush.classList.add('hidden');
+          npcBlush.classList.add('hidden');
+        }, 4000);
+      }
+    }
+
+    // 4. Interactive Black Background Doodles Canvas (Push Aside on Interaction)
     (function initDoodles() {
       const canvas = document.getElementById('doodleCanvas');
       const ctx = canvas.getContext('2d');
@@ -664,7 +893,7 @@
       animate();
     })();
 
-    // 4. Interactive Pixelated Water Sea Canvas Effect
+    // 5. Interactive Pixelated Water Sea Canvas Effect
     window.addEventListener('load', function() {
       const canvas = document.getElementById('waterCanvas');
       const ctx = canvas.getContext('2d');
