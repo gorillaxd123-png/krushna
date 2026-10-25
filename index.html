@@ -172,9 +172,9 @@
     <!-- Profile Header Section -->
     <header class="text-center w-full mb-8 flex flex-col items-center">
       
-      <!-- Pixel Avatar Frame -->
+      <!-- Pixel Avatar Frame (With Right Tilt Animation on Hover) -->
       <div class="relative group mb-6">
-        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform duration-200 group-hover:scale-105 group-hover:rotate-6">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
             alt="Krushna Profile Picture"
@@ -723,83 +723,3 @@
         ctx.clearRect(0, 0, width, height);
 
         for (let i = 0; i < points.length; i++) {
-          const p = points[i];
-          const ambientWave = Math.sin(time * 2 + i * 0.3) * 3 + Math.cos(time * 1.5 + i * 0.2) * 2;
-          const dy = p.targetY + ambientWave - p.y;
-          p.vy += dy * 0.04;
-          p.vy *= 0.88;
-          p.y += p.vy;
-        }
-
-        for (let iteration = 0; iteration < 2; iteration++) {
-          for (let i = 0; i < points.length; i++) {
-            if (i > 0) {
-              points[i - 1].vy += 0.25 * (points[i].y - points[i - 1].y);
-            }
-            if (i < points.length - 1) {
-              points[i + 1].vy += 0.25 * (points[i].y - points[i + 1].y);
-            }
-          }
-        }
-
-        // 1. Base Layer
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(0, 0, width, height);
-
-        // 2. Mid Layer
-        ctx.fillStyle = '#1e3a8a';
-        ctx.beginPath();
-        ctx.moveTo(0, height);
-        for (let i = 0; i < points.length; i++) {
-          const stepX = Math.floor(points[i].x / 4) * 4;
-          const stepY = Math.floor((points[i].y - 12) / 4) * 4;
-          ctx.lineTo(stepX, stepY);
-        }
-        ctx.lineTo(width, height);
-        ctx.closePath();
-        ctx.fill();
-
-        // 3. Main Water Layer
-        ctx.fillStyle = '#0284c7';
-        ctx.beginPath();
-        ctx.moveTo(0, height);
-        for (let i = 0; i < points.length; i++) {
-          const stepX = Math.floor(points[i].x / 4) * 4;
-          const stepY = Math.floor(points[i].y / 4) * 4;
-          ctx.lineTo(stepX, stepY);
-        }
-        ctx.lineTo(width, height);
-        ctx.closePath();
-        ctx.fill();
-
-        // 4. Foam Line
-        ctx.fillStyle = '#e0f2fe';
-        for (let i = 0; i < points.length - 1; i++) {
-          const stepX = Math.floor(points[i].x / 4) * 4;
-          const stepY = Math.floor(points[i].y / 4) * 4;
-          ctx.fillRect(stepX, stepY - 4, 8, 4);
-        }
-
-        // 5. Cursor Splash Foam
-        if (isHovered && mouseX > 0 && mouseX < width) {
-          ctx.fillStyle = '#ffffff';
-          const pixelMouseX = Math.floor(mouseX / 4) * 4;
-          const nearestIndex = Math.min(Math.max(0, Math.floor((mouseX / width) * cols)), cols - 1);
-          const pixelWaterY = Math.floor(points[nearestIndex].y / 4) * 4;
-
-          ctx.fillRect(pixelMouseX - 8, pixelWaterY - 8, 6, 6);
-          ctx.fillRect(pixelMouseX + 6, pixelWaterY - 12, 4, 4);
-          ctx.fillRect(pixelMouseX - 16, pixelWaterY - 4, 4, 4);
-        }
-
-        requestAnimationFrame(animate);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-      animate();
-    });
-  </script>
-
-</body>
-</html>
