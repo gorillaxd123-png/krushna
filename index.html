@@ -172,9 +172,9 @@
     <!-- Profile Header Section -->
     <header class="text-center w-full mb-8 flex flex-col items-center">
       
-      <!-- Pixel Avatar Frame with Right Tilt on Hover -->
+      <!-- Pixel Avatar Frame -->
       <div class="relative group mb-6">
-        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform duration-300 ease-out group-hover:scale-105 group-hover:rotate-6">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
             alt="Krushna Profile Picture"
@@ -189,22 +189,22 @@
         Krushna
       </h1>
 
-      <!-- Roles Pixel Badges with Software Icons -->
+      <!-- Roles Pixel Badges -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-4 font-mono text-base font-bold">
         <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Krita_Logo.svg" alt="Krita" class="w-4 h-4 object-contain"> ARTIST
+          <span>🎨</span> ARTIST
         </span>
         <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" alt="Photoshop" class="w-4 h-4 object-contain"> THUMBNAIL DESIGNER
+          <span>🖼️</span> THUMBNAIL DESIGNER
         </span>
         <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" alt="Premiere Pro" class="w-4 h-4 object-contain"> EDITOR
+          <span>✂️</span> EDITOR
         </span>
       </div>
 
       <!-- Bio / Intro Subtitle -->
       <p class="font-mono text-xl text-slate-600 max-w-md">
-        just a guy , who loves learning stuff
+        Welcome to my pixel space. My links, socials & creations!
       </p>
     </header>
 
@@ -406,7 +406,7 @@
 
   </main>
 
-  <!-- Interactive Water Canvas Container at Bottom (No Black Rectangle) -->
+  <!-- Interactive Water Canvas Container at Bottom -->
   <div class="w-full relative overflow-hidden mt-4 z-10">
     <canvas id="waterCanvas"></canvas>
   </div>
@@ -482,7 +482,7 @@
       }, 2200);
     }
 
-    // 3. Interactive Black Background Doodles Canvas (Push Aside on Interaction)
+    // 3. Interactive Background Doodles Canvas
     (function initDoodles() {
       const canvas = document.getElementById('doodleCanvas');
       const ctx = canvas.getContext('2d');
@@ -568,7 +568,6 @@
 
         switch(d.type) {
           case 'star':
-            // 4-point pixel star
             ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
             ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
             ctx.fillRect(-4*s, -4*s, 8*s, 8*s);
@@ -590,7 +589,6 @@
           case 'ghost':
             ctx.fillRect(-6*s, -8*s, 12*s, 14*s);
             ctx.fillRect(-8*s, -4*s, 16*s, 8*s);
-            // clear eyes
             ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
             ctx.clearRect(1*s, -4*s, 3*s, 3*s);
             break;
@@ -613,7 +611,6 @@
             ctx.fillRect(0*s, 7*s, 3*s, 4*s);
             break;
           default:
-            // Cross / Sparkle fallback
             ctx.fillRect(-1*s, -7*s, 2*s, 14*s);
             ctx.fillRect(-7*s, -1*s, 14*s, 2*s);
             break;
@@ -626,7 +623,6 @@
         ctx.clearRect(0, 0, width, height);
 
         doodles.forEach(d => {
-          // Repel from cursor hover smooth pushing
           const dx = d.x - mouse.x;
           const dy = d.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
@@ -638,21 +634,23 @@
             d.vy += (dy / dist) * force;
           }
 
-          // Spring return to original coordinates
           const springX = (d.originX - d.x) * 0.035;
           const springY = (d.originY - d.y) * 0.035;
 
           d.vx += springX;
           d.vy += springY;
 
-          // Friction / Damping
           d.vx *= 0.86;
           d.vy *= 0.86;
 
           d.x += d.vx;
           d.y += d.vy;
 
-          ctx.globalAlpha = 0.18; // Soft subtle doodle opacity
+          ctx.globalAlpha = 0.18;
+          drawPixelDoodle(ctx, d);
+        });
+
+        requestAnimationFrame(animate);
       }
 
       window.addEventListener('resize', resize);
@@ -738,7 +736,7 @@
           }
         }
 
-        // 2. Mid Layer
+        // 1. Mid Layer
         ctx.fillStyle = '#1e3a8a';
         ctx.beginPath();
         ctx.moveTo(0, height);
@@ -751,7 +749,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // 3. Main Water Layer
+        // 2. Main Water Layer
         ctx.fillStyle = '#0284c7';
         ctx.beginPath();
         ctx.moveTo(0, height);
@@ -764,7 +762,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // 4. Foam Line
+        // 3. Foam Line
         ctx.fillStyle = '#e0f2fe';
         for (let i = 0; i < points.length - 1; i++) {
           const stepX = Math.floor(points[i].x / 4) * 4;
@@ -772,7 +770,7 @@
           ctx.fillRect(stepX, stepY - 4, 8, 4);
         }
 
-        // 5. Cursor Splash Foam
+        // 4. Cursor Splash Foam
         if (isHovered && mouseX > 0 && mouseX < width) {
           ctx.fillStyle = '#ffffff';
           const pixelMouseX = Math.floor(mouseX / 4) * 4;
