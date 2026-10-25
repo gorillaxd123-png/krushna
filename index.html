@@ -6,10 +6,12 @@
   <title>Krushna | Portfolio & Links</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Font: Plus Jakarta Sans for clean typography -->
+  
+  <!-- Pixel Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  
   <!-- FontAwesome for fallback & UI icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -18,15 +20,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#f8fafc',
-              100: '#f1f5f9',
-              800: '#1e293b',
-              900: '#0f172a',
-            }
+            pixel: ['"Press Start 2P"', 'monospace'],
+            mono: ['"VT323"', 'monospace'],
           }
         }
       }
@@ -35,106 +30,132 @@
 
   <style>
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #fafafa;
+      font-family: 'VT323', monospace;
+      background-color: #f7f9fc;
       color: #0f172a;
+      overflow-x: hidden;
+      image-rendering: pixelated;
     }
     
-    /* Subtle background grid pattern for depth */
-    .bg-grid {
-      background-size: 30px 30px;
+    /* Subtle pixel background grid */
+    .bg-pixel-grid {
+      background-size: 24px 24px;
       background-image: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(0, 0, 0, 0.04) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 2px, transparent 2px);
     }
 
-    /* Soft shadow card effect */
-    .link-card {
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    /* Pixel Art Shadow & Border styling */
+    .pixel-card {
+      border: 3px solid #0f172a;
+      box-shadow: 4px 4px 0px 0px #0f172a;
+      transition: all 0.15s ease-in-out;
     }
-    .link-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
-      border-color: rgba(15, 23, 42, 0.2);
+    
+    .pixel-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px 0px #0f172a;
     }
 
-    /* Toast Notification animation */
+    .pixel-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px 0px #0f172a;
+    }
+
+    .pixel-badge {
+      border: 2px solid #0f172a;
+      box-shadow: 2px 2px 0px 0px #0f172a;
+    }
+
+    /* Toast Notification Animation */
     #toast {
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      border: 3px solid #0f172a;
+      box-shadow: 4px 4px 0px 0px #0f172a;
+    }
+
+    /* Canvas styling */
+    #waterCanvas {
+      display: block;
+      width: 100%;
+      height: 180px;
+      pointer-events: auto;
     }
   </style>
 </head>
-<body class="bg-grid min-h-screen flex flex-col items-center justify-between p-4 sm:p-6 md:p-12 text-slate-800 antialiased selection:bg-slate-900 selection:text-white">
+<body class="bg-pixel-grid min-h-screen flex flex-col justify-between text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
 
   <!-- Toast Notification for Copy Actions -->
-  <div id="toast" class="fixed bottom-6 z-50 transform translate-y-10 opacity-0 pointer-events-none bg-slate-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-slate-700">
-    <i class="fa-solid fa-circle-check text-emerald-400"></i>
-    <span id="toast-message" class="text-sm font-medium">Copied to clipboard!</span>
+  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform -translate-y-12 opacity-0 pointer-events-none bg-white text-slate-900 px-5 py-3 rounded-none flex items-center gap-3">
+    <i class="fa-solid fa-square-check text-emerald-600 text-lg"></i>
+    <span id="toast-message" class="font-pixel text-xs tracking-wide">Copied!</span>
   </div>
 
-  <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center my-auto">
+  <!-- Main Container -->
+  <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-10 pb-6 z-10">
     
     <!-- Profile Header Section -->
     <header class="text-center w-full mb-8 flex flex-col items-center">
-      <!-- Profile Picture Frame -->
-      <div class="relative group mb-5">
-        <div class="absolute -inset-1 bg-gradient-to-r from-slate-200 to-slate-400 rounded-full blur opacity-50 group-hover:opacity-75 transition duration-300"></div>
-        <img 
-          src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
-          alt="Krushna Profile Picture"
-          class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white shadow-md bg-slate-100"
-          onerror="this.onerror=null; this.src='https://placehold.co/128x128/ffffff/0f172a?text=Krushna';"
-        />
+      
+      <!-- Pixel Avatar Frame -->
+      <div class="relative group mb-6">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105">
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
+            alt="Krushna Profile Picture"
+            class="w-full h-full object-cover rounded-none bg-slate-100"
+            onerror="this.onerror=null; this.src='https://placehold.co/128x128/ffffff/0f172a?text=Krushna';"
+          />
+        </div>
       </div>
 
-      <!-- Username & Titles -->
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
+      <!-- Pixel Username -->
+      <h1 class="font-pixel text-2xl sm:text-3xl tracking-wider text-slate-900 mb-4 uppercase">
         Krushna
       </h1>
 
-      <!-- Roles Badges -->
-      <div class="flex flex-wrap items-center justify-center gap-2 mt-1 mb-3">
-        <span class="px-3 py-1 bg-white border border-slate-200/80 rounded-full text-xs font-semibold text-slate-700 shadow-sm">
-          🎨 Artist
+      <!-- Roles Pixel Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-4 font-mono text-base font-bold">
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800">
+          🎨 ARTIST
         </span>
-        <span class="px-3 py-1 bg-white border border-slate-200/80 rounded-full text-xs font-semibold text-slate-700 shadow-sm">
-          🖼️ Thumbnail Designer
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800">
+          🖼️ THUMBNAIL DESIGNER
         </span>
-        <span class="px-3 py-1 bg-white border border-slate-200/80 rounded-full text-xs font-semibold text-slate-700 shadow-sm">
-          ✂️ Editor
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800">
+          ✂️ EDITOR
         </span>
       </div>
 
       <!-- Bio / Intro Subtitle -->
-      <p class="text-sm text-slate-500 max-w-sm font-normal">
-        Welcome to my personal space. All my socials, creations, and links in one place.
+      <p class="font-mono text-xl text-slate-600 max-w-md">
+        Welcome to my pixel space. My links, socials & creations!
       </p>
     </header>
 
     <!-- Links / Cards Container -->
-    <section class="w-full flex flex-col gap-3.5">
+    <section class="w-full flex flex-col gap-4">
 
       <!-- YouTube Card -->
       <a 
         href="https://www.youtube.com/@krushnaxd133" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="link-card bg-white border border-slate-200/70 rounded-2xl p-4 flex items-center justify-between group"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/youtube_icon_bg.png?raw=true" 
             alt="YouTube Icon"
-            class="w-11 h-11 rounded-xl object-cover border border-slate-100 shadow-sm bg-red-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/44x44/ff0000/ffffff?text=YT';"
+            class="w-12 h-12 object-cover border-2 border-slate-900 bg-red-50"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/ff0000/ffffff?text=YT';"
           />
           <div>
-            <h2 class="font-bold text-slate-900 text-base group-hover:text-red-600 transition-colors">YouTube</h2>
-            <p class="text-xs text-slate-500">@krushnaxd133</p>
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-red-600 transition-colors">YOUTUBE</h2>
+            <p class="font-mono text-lg text-slate-500">@krushnaxd133</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-red-50 group-hover:text-red-600 text-slate-400 flex items-center justify-center transition-colors">
+        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-red-500 group-hover:text-white transition-colors">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -144,21 +165,21 @@
         href="https://www.twitch.tv/krushnaxd123" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="link-card bg-white border border-slate-200/70 rounded-2xl p-4 flex items-center justify-between group"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/twitch_icon_bg.png?raw=true" 
             alt="Twitch Icon"
-            class="w-11 h-11 rounded-xl object-cover border border-slate-100 shadow-sm bg-purple-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/44x44/9146ff/ffffff?text=TW';"
+            class="w-12 h-12 object-cover border-2 border-slate-900 bg-purple-50"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/9146ff/ffffff?text=TW';"
           />
           <div>
-            <h2 class="font-bold text-slate-900 text-base group-hover:text-purple-600 transition-colors">Twitch</h2>
-            <p class="text-xs text-slate-500">krushnaxd123</p>
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-purple-600 transition-colors">TWITCH</h2>
+            <p class="font-mono text-lg text-slate-500">krushnaxd123</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-purple-50 group-hover:text-purple-600 text-slate-400 flex items-center justify-center transition-colors">
+        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-purple-600 group-hover:text-white transition-colors">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -168,21 +189,21 @@
         href="https://www.instagram.com/krushna_xd123/?__pwa=1" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="link-card bg-white border border-slate-200/70 rounded-2xl p-4 flex items-center justify-between group"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/instagram_icon_bg.png?raw=true" 
             alt="Instagram Icon"
-            class="w-11 h-11 rounded-xl object-cover border border-slate-100 shadow-sm bg-pink-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/44x44/e1306c/ffffff?text=IG';"
+            class="w-12 h-12 object-cover border-2 border-slate-900 bg-pink-50"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/e1306c/ffffff?text=IG';"
           />
           <div>
-            <h2 class="font-bold text-slate-900 text-base group-hover:text-pink-600 transition-colors">Instagram</h2>
-            <p class="text-xs text-slate-500">@krushna_xd123</p>
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-pink-600 transition-colors">INSTAGRAM</h2>
+            <p class="font-mono text-lg text-slate-500">@krushna_xd123</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-pink-50 group-hover:text-pink-600 text-slate-400 flex items-center justify-center transition-colors">
+        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-pink-500 group-hover:text-white transition-colors">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -192,114 +213,122 @@
         href="https://ko-fi.com/krushnaxd133" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="link-card bg-white border border-slate-200/70 rounded-2xl p-4 flex items-center justify-between group"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
-          <!-- Ko-fi custom style icon box -->
-          <div class="w-11 h-11 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-500 shadow-sm group-hover:scale-105 transition-transform">
-            <i class="fa-solid fa-mug-hot text-xl"></i>
-          </div>
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/kofi_icon_bg.png?raw=true" 
+            alt="Ko-fi Icon"
+            class="w-12 h-12 object-cover border-2 border-slate-900 bg-sky-50"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/29abe2/ffffff?text=KF';"
+          />
           <div>
-            <h2 class="font-bold text-slate-900 text-base group-hover:text-sky-500 transition-colors">Ko-fi</h2>
-            <p class="text-xs text-slate-500">Support my creative work</p>
+            <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-sky-500 transition-colors">KO-FI</h2>
+            <p class="font-mono text-lg text-slate-500">Support my creative work</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-sky-50 group-hover:text-sky-500 text-slate-400 flex items-center justify-center transition-colors">
+        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-sky-500 group-hover:text-white transition-colors">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
 
       <!-- Discord Card (Copy to Clipboard) -->
       <div 
-        onclick="copyText('krushnaxd133', 'Discord username copied to clipboard!')"
-        class="link-card bg-white border border-slate-200/70 rounded-2xl p-4 flex items-center justify-between cursor-pointer group"
+        onclick="copyText('krushnaxd133', 'Discord tag copied!')"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between cursor-pointer group"
       >
         <div class="flex items-center gap-4">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/discord_icon_bg.png?raw=true" 
             alt="Discord Icon"
-            class="w-11 h-11 rounded-xl object-cover border border-slate-100 shadow-sm bg-indigo-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/44x44/5865f2/ffffff?text=DC';"
+            class="w-12 h-12 object-cover border-2 border-slate-900 bg-indigo-50"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/5865f2/ffffff?text=DC';"
           />
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="font-bold text-slate-900 text-base group-hover:text-indigo-600 transition-colors">Discord</h2>
-              <span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-[10px] font-bold rounded-md">COPY</span>
+              <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">DISCORD</h2>
+              <span class="px-1.5 py-0.5 bg-indigo-100 text-indigo-900 border border-slate-900 font-pixel text-[9px]">COPY</span>
             </div>
-            <p class="text-xs text-slate-500 font-mono">krushnaxd133</p>
+            <p class="font-mono text-lg text-slate-500">krushnaxd133</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-indigo-50 group-hover:text-indigo-600 text-slate-400 flex items-center justify-center transition-colors">
+        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
           <i class="fa-regular fa-copy text-sm"></i>
         </div>
       </div>
 
       <!-- Minecraft Card (Copy to Clipboard) -->
       <div 
-        onclick="copyText('krushnaxd133', 'Minecraft username copied to clipboard!')"
-        class="link-card bg-white border border-slate-200/70 rounded-2xl p-4 flex items-center justify-between cursor-pointer group"
+        onclick="copyText('krushnaxd133', 'Minecraft IGN copied!')"
+        class="pixel-card bg-white p-3.5 flex items-center justify-between cursor-pointer group"
       >
         <div class="flex items-center gap-4">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/minecraft_icon_bg.png?raw=true" 
             alt="Minecraft Icon"
-            class="w-11 h-11 rounded-xl object-cover border border-slate-100 shadow-sm bg-emerald-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/44x44/55ff55/000000?text=MC';"
+            class="w-12 h-12 object-cover border-2 border-slate-900 bg-emerald-50"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/55ff55/000000?text=MC';"
           />
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition-colors">Minecraft IGN</h2>
-              <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-md">COPY</span>
+              <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-emerald-600 transition-colors">MINECRAFT</h2>
+              <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-900 border border-slate-900 font-pixel text-[9px]">COPY</span>
             </div>
-            <p class="text-xs text-slate-500 font-mono">krushnaxd133</p>
+            <p class="font-mono text-lg text-slate-500">krushnaxd133</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-emerald-50 group-hover:text-emerald-600 text-slate-400 flex items-center justify-center transition-colors">
+        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
           <i class="fa-regular fa-copy text-sm"></i>
         </div>
       </div>
 
       <!-- Modrinth Card (Coming Soon) -->
       <div 
-        class="bg-white/60 border border-slate-200/50 rounded-2xl p-4 flex items-center justify-between opacity-80 cursor-not-allowed"
+        class="border-3 border-slate-400 bg-slate-100 p-3.5 flex items-center justify-between opacity-70 cursor-not-allowed"
+        style="border: 2px dashed #64748b;"
       >
         <div class="flex items-center gap-4">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/modrinth_icon_bg.png?raw=true" 
             alt="Modrinth Icon"
-            class="w-11 h-11 rounded-xl object-cover border border-slate-100 grayscale"
-            onerror="this.onerror=null; this.src='https://placehold.co/44x44/1bd96a/ffffff?text=MR';"
+            class="w-12 h-12 object-cover border-2 border-slate-400 grayscale bg-slate-200"
+            onerror="this.onerror=null; this.src='https://placehold.co/48x48/1bd96a/ffffff?text=MR';"
           />
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="font-bold text-slate-700 text-base">Modrinth</h2>
-              <span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200/60 text-[10px] font-semibold rounded-md uppercase tracking-wider">Soon</span>
+              <h2 class="font-pixel text-xs sm:text-sm text-slate-600">MODRINTH</h2>
+              <span class="px-1.5 py-0.5 bg-amber-100 text-amber-900 border border-slate-500 font-pixel text-[9px]">SOON</span>
             </div>
-            <p class="text-xs text-slate-400">Projects under construction</p>
+            <p class="font-mono text-lg text-slate-500">Projects under construction</p>
           </div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-slate-50 text-slate-300 flex items-center justify-center">
+        <div class="px-3 py-1 bg-slate-200 text-slate-400 border border-slate-400">
           <i class="fa-solid fa-clock text-xs"></i>
         </div>
       </div>
 
     </section>
 
+    <!-- Footer Text -->
+    <footer class="mt-8 text-center font-pixel text-[10px] text-slate-500 tracking-wider uppercase">
+      <p>© <span id="year"></span> KRUSHNA • ALL RIGHTS RESERVED</p>
+      <p class="font-mono text-sm text-slate-400 mt-1">Move cursor below to interact with the sea ~</p>
+    </footer>
+
   </main>
 
-  <!-- Footer -->
-  <footer class="mt-12 text-center text-xs text-slate-400">
-    <p>© <span id="year"></span> Krushna • All rights reserved</p>
-  </footer>
+  <!-- Interactive Water Canvas Container at Bottom -->
+  <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4">
+    <canvas id="waterCanvas"></canvas>
+  </div>
 
   <!-- Interactivity Scripts -->
   <script>
     // Set current year dynamically
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Copy to clipboard fallback handler
+    // Clipboard Copy Handler
     function copyText(text, message) {
-      // Create temporary textarea for execCommand copy
       const el = document.createElement('textarea');
       el.value = text;
       el.setAttribute('readonly', '');
@@ -325,20 +354,182 @@
       const toastMessage = document.getElementById('toast-message');
       
       toastMessage.textContent = message;
-      
-      // Clear previous timeout if triggered repeatedly
       clearTimeout(toastTimeout);
       
-      // Show toast
-      toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+      toast.classList.remove('opacity-0', '-translate-y-12', 'pointer-events-none');
       toast.classList.add('opacity-100', 'translate-y-0');
       
-      // Hide toast after 2.5s
       toastTimeout = setTimeout(() => {
         toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-      }, 2500);
+        toast.classList.add('opacity-0', '-translate-y-12', 'pointer-events-none');
+      }, 2200);
     }
+
+    // Interactive Pixelated Water Sea Canvas Effect
+    window.onload = function() {
+      const canvas = document.getElementById('waterCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      let width, height;
+      const cols = 80; // Pixelated horizontal columns
+      let rows = 12;
+      let points = [];
+      let mouseX = -100;
+      let mouseY = -100;
+      let isHovered = false;
+
+      function resize() {
+        width = canvas.parentElement.clientWidth;
+        height = 180;
+        canvas.width = width;
+        canvas.height = height;
+
+        initPoints();
+      }
+
+      function initPoints() {
+        points = [];
+        const spacing = width / (cols - 1);
+        for (let i = 0; i < cols; i++) {
+          points.push({
+            x: i * spacing,
+            y: height * 0.45,
+            targetY: height * 0.45,
+            vy: 0,
+            force: 0
+          });
+        }
+      }
+
+      // Track cursor position on canvas or page bottom
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+
+        if (mouseY >= -50 && mouseY <= height + 50) {
+          isHovered = true;
+          // Disturb water points near mouse
+          for (let i = 0; i < points.length; i++) {
+            const dist = Math.abs(points[i].x - mouseX);
+            if (dist < 45) {
+              points[i].vy += (45 - dist) * 0.18;
+            }
+          }
+        } else {
+          isHovered = false;
+        }
+      });
+
+      // Touch support
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          const rect = canvas.getBoundingClientRect();
+          mouseX = e.touches[0].clientX - rect.left;
+          mouseY = e.touches[0].clientY - rect.top;
+
+          for (let i = 0; i < points.length; i++) {
+            const dist = Math.abs(points[i].x - mouseX);
+            if (dist < 45) {
+              points[i].vy += (45 - dist) * 0.2;
+            }
+          }
+        }
+      });
+
+      let time = 0;
+
+      function animate() {
+        time += 0.04;
+        ctx.clearRect(0, 0, width, height);
+
+        // Physics wave calculation
+        for (let i = 0; i < points.length; i++) {
+          const p = points[i];
+          // Base natural ambient sine wave
+          const ambientWave = Math.sin(time * 2 + i * 0.3) * 3 + Math.cos(time * 1.5 + i * 0.2) * 2;
+          
+          const dy = p.targetY + ambientWave - p.y;
+          p.vy += dy * 0.04; // Springiness
+          p.vy *= 0.88;      // Damping
+          p.y += p.vy;
+        }
+
+        // Propagate wave neighboring forces for realistic wave propagation
+        for (let iteration = 0; iteration < 2; iteration++) {
+          for (let i = 0; i < points.length; i++) {
+            if (i > 0) {
+              const leftDiff = 0.25 * (points[i].y - points[i - 1].y);
+              points[i - 1].vy += leftDiff;
+            }
+            if (i < points.length - 1) {
+              const rightDiff = 0.25 * (points[i].y - points[i + 1].y);
+              points[i + 1].vy += rightDiff;
+            }
+          }
+        }
+
+        // Draw Deep Water Layers with Pixel Steps
+        
+        // 1. Far Deep Water Layer
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, width, height);
+
+        // 2. Mid Ocean Layer
+        ctx.fillStyle = '#1e3a8a';
+        ctx.beginPath();
+        ctx.moveTo(0, height);
+        for (let i = 0; i < points.length; i++) {
+          const stepX = Math.floor(points[i].x / 4) * 4;
+          const stepY = Math.floor((points[i].y - 12) / 4) * 4;
+          ctx.lineTo(stepX, stepY);
+        }
+        ctx.lineTo(width, height);
+        ctx.closePath();
+        ctx.fill();
+
+        // 3. Top Interactive Ocean Wave Layer
+        ctx.fillStyle = '#0284c7';
+        ctx.beginPath();
+        ctx.moveTo(0, height);
+        for (let i = 0; i < points.length; i++) {
+          // Pixelate coordinates for retro feel
+          const stepX = Math.floor(points[i].x / 4) * 4;
+          const stepY = Math.floor(points[i].y / 4) * 4;
+          ctx.lineTo(stepX, stepY);
+        }
+        ctx.lineTo(width, height);
+        ctx.closePath();
+        ctx.fill();
+
+        // 4. White Crest Pixel Foam Lines
+        ctx.fillStyle = '#e0f2fe';
+        for (let i = 0; i < points.length - 1; i++) {
+          const stepX = Math.floor(points[i].x / 4) * 4;
+          const stepY = Math.floor(points[i].y / 4) * 4;
+          ctx.fillRect(stepX, stepY - 4, 8, 4);
+        }
+
+        // 5. Interactive Cursor Splash Dots
+        if (isHovered && mouseX > 0 && mouseX < width) {
+          ctx.fillStyle = '#ffffff';
+          const pixelMouseX = Math.floor(mouseX / 4) * 4;
+          const nearestPointIndex = Math.min(Math.max(0, Math.floor((mouseX / width) * cols)), cols - 1);
+          const pixelWaterY = Math.floor(points[nearestPointIndex].y / 4) * 4;
+
+          // Draw pixel foam splash where cursor touches water
+          ctx.fillRect(pixelMouseX - 8, pixelWaterY - 8, 6, 6);
+          ctx.fillRect(pixelMouseX + 6, pixelWaterY - 12, 4, 4);
+          ctx.fillRect(pixelMouseX - 16, pixelWaterY - 4, 4, 4);
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+    };
   </script>
 
 </body>
