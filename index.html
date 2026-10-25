@@ -52,18 +52,7 @@
       box-shadow: 4px 4px 0px 0px #0f172a;
       transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     }
-
-    /* 3D Perspective container for Profile Picture */
-    .pfp-perspective-container {
-      perspective: 800px;
-    }
     
-    #profileFrame {
-      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
     .pixel-card:hover {
       transform: translate(-2px, -2px);
       box-shadow: 6px 6px 0px 0px #0f172a;
@@ -77,22 +66,6 @@
     .pixel-badge {
       border: 2px solid #0f172a;
       box-shadow: 2px 2px 0px 0px #0f172a;
-    }
-
-    .retro-button {
-      border: 2px solid #0f172a;
-      box-shadow: 3px 3px 0px 0px #0f172a;
-      transition: all 0.15s ease;
-    }
-
-    .retro-button:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 5px 5px 0px 0px #0f172a;
-    }
-
-    .retro-button:active {
-      transform: translate(1px, 1px);
-      box-shadow: 1px 1px 0px 0px #0f172a;
     }
 
     /* Toast Notification */
@@ -132,26 +105,6 @@
 
     .animate-wobble {
       animation: pixel-wobble 0.35s infinite ease-in-out;
-    }
-
-    /* Cheek Blush Pulse Animation */
-    @keyframes blushPulse {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.15); }
-    }
-    
-    .animate-blush {
-      animation: blushPulse 1s infinite ease-in-out;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
-    }
-    
-    .animate-shake {
-      animation: shake 0.4s ease-in-out;
     }
 
     /* Pixelated progress bar styling */
@@ -214,83 +167,14 @@
   </div>
 
   <!-- Main Portfolio Container -->
-  <main class="w-full max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-8 pb-6 z-10 relative">
-    
-    <!-- Profile Header & Stardew Valley Dialogue Section -->
-    <header class="w-full mb-8 flex flex-col items-center">
-      
-      <!-- Flex Container for PFP + Side Dialogue (Stardew Valley Style) -->
-      <div class="w-full flex flex-col md:flex-row items-center md:items-start justify-center gap-4 sm:gap-6 mb-6">
-        
-        <!-- Avatar Frame Column with 3D Tilt Perspective Wrapper -->
-      /* Pixelated progress bar styling */
-      .pixel-progress-border {
-        border: 4px solid #0f172a;
-        box-shadow: 4px 4px 0px 0px #0f172a;
-      }
-    </style>
-</head>
-<body class="bg-pixel-grid min-h-screen flex flex-col justify-between text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
-
-  <!-- Interactive Background Interactive Doodles Canvas -->
-  <canvas id="doodleCanvas"></canvas>
-
-  <!-- Wobbling Pixelated Entry Loading Overlay -->
-  <div id="loadingOverlay" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center p-6 border-8 border-slate-900 transition-all duration-700">
-    <div class="flex flex-col items-center max-w-sm w-full text-center">
-      
-      <!-- Wobbling Profile Preview Box -->
-      <div class="relative mb-6 animate-wobble">
-        <div class="w-24 h-24 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)]">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
-            alt="Krushna PFP Loader"
-            class="w-full h-full object-cover rounded-none bg-slate-100"
-            onerror="this.onerror=null; this.src='https://placehold.co/96x96/ffffff/0f172a?text=K';"
-          />
-        </div>
-      </div>
-
-      <!-- Wobbling Title -->
-      <h2 class="font-pixel text-xl text-slate-900 mb-2 uppercase animate-wobble tracking-widest">
-        KRUSHNA
-      </h2>
-      <p id="loaderStatusText" class="font-mono text-lg text-slate-600 mb-6 tracking-wide">
-        INITIALIZING PIXEL SPACE...
-      </p>
-
-      <!-- Pixelated Wobbling Progress Bar -->
-      <div class="w-full bg-white p-1.5 mb-6 pixel-progress-border">
-        <div id="progressBar" class="h-5 bg-slate-900 transition-all duration-200 w-0"></div>
-      </div>
-
-      <!-- Enter Button (Appears when loaded) -->
-      <button 
-        id="enterBtn" 
-        onclick="dismissLoader()"
-        class="hidden font-pixel text-xs px-6 py-3 bg-slate-900 text-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,0.4)] hover:bg-slate-800 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-wobble"
-      >
-        [ PRESS TO ENTER ]
-      </button>
-
-    </div>
-  </div>
-
-  <!-- Toast Notification for Copy Actions -->
-  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform -translate-y-12 opacity-0 pointer-events-none bg-white text-slate-900 px-5 py-3 rounded-none flex items-center gap-3">
-    <i class="fa-solid fa-square-check text-emerald-600 text-lg"></i>
-    <span id="toast-message" class="font-pixel text-xs tracking-wide">Copied!</span>
-  </div>
-
-  <!-- Main Portfolio Container -->
   <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-10 pb-6 z-10 relative">
     
     <!-- Profile Header Section -->
     <header class="text-center w-full mb-8 flex flex-col items-center">
       
-      <!-- Pixel Avatar Frame with Right Tilt Hover Effect -->
+      <!-- Pixel Avatar Frame -->
       <div class="relative group mb-6">
-        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform duration-200 ease-out group-hover:scale-105 group-hover:rotate-6">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
             alt="Krushna Profile Picture"
@@ -319,7 +203,7 @@
       </div>
 
       <!-- Bio / Intro Subtitle -->
-      <p class="font-mono text-xl text-slate-600 max-w-md text-center">
+      <p class="font-mono text-xl text-slate-600 max-w-md">
         Welcome to my pixel space. My links, socials & creations!
       </p>
     </header>
@@ -517,13 +401,13 @@
     <!-- Footer Text -->
     <footer class="mt-8 text-center font-pixel text-[10px] text-slate-500 tracking-wider uppercase">
       <p>© <span id="year"></span> KRUSHNA • ALL RIGHTS RESERVED</p>
-      <p class="font-mono text-sm text-slate-400 mt-1">Smash water below for pixel physics splashes ~</p>
+      <p class="font-mono text-sm text-slate-400 mt-1">Click doodles to push them aside ~</p>
     </footer>
 
   </main>
 
   <!-- Interactive Water Canvas Container at Bottom -->
-  <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4 z-10 cursor-pointer">
+  <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4 z-10">
     <canvas id="waterCanvas"></canvas>
   </div>
 
@@ -598,139 +482,13 @@
       }, 2200);
     }
 
-    // Dynamic 3D Tilt Effect on Profile Picture Hover
-    function handlePfpTilt(e) {
-      const frame = document.getElementById('profileFrame');
-      const rect = frame.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      // Calculate rotation angles (max tilt ~18deg)
-      const rotateX = ((y - centerY) / centerY) * -18;
-      const rotateY = ((x - centerX) / centerX) * 18;
-
-      // Dynamic shadow displacement based on tilt angle
-      const shadowX = 6 - (rotateY / 3);
-      const shadowY = 6 + (rotateX / 3);
-
-      frame.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.06, 1.06, 1.06)`;
-      frame.style.boxShadow = `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 0px 0px #0f172a`;
-    }
-
-    function resetPfpTilt() {
-      const frame = document.getElementById('profileFrame');
-      frame.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-      frame.style.boxShadow = '6px 6px 0px 0px #0f172a';
-    }
-
-    // 3. NPC Dialogue System & PFP Annoyance Counter (Stardew Side-Box Display)
-    let clickCount = 0;
-    let isLockedCount = false;
-    let typingTimer = null;
-
-    const annoyanceMessages = [
-      "ouch!",
-      "ah!",
-      "ayo chill bro...",
-      "stop poking me! 😠",
-      "bruh..."
-    ];
-
-    function onPfpClick() {
-      if (isLockedCount) return;
-
-      clickCount++;
-
-      const annoyanceSpeech = document.getElementById('annoyanceSpeech');
-      const profileFrame = document.getElementById('profileFrame');
-      const lockIcon = document.getElementById('lockIcon');
-      const npcStatusTag = document.getElementById('npcStatusTag');
-
-      if (clickCount >= 7) {
-        isLockedCount = true;
-
-        profileFrame.classList.add('animate-shake');
-        annoyanceSpeech.textContent = "( he left the chat... 🚪🏃💨 )";
-        annoyanceSpeech.classList.remove('hidden');
-        lockIcon.classList.remove('hidden');
-        typewriteText("( he left the chat... 🚪🏃💨 )");
-
-        if (npcStatusTag) npcStatusTag.classList.replace('bg-emerald-500', 'bg-red-500');
-
-        setTimeout(() => {
-          profileFrame.classList.remove('animate-shake');
-        }, 600);
-
-        setTimeout(() => {
-          isLockedCount = false;
-          clickCount = 0;
-          annoyanceSpeech.classList.add('hidden');
-          lockIcon.classList.add('hidden');
-          typewriteText("wsp up ?");
-          if (npcStatusTag) npcStatusTag.classList.replace('bg-red-500', 'bg-emerald-500');
-        }, 8000);
-
-        return;
-      } else if (clickCount >= 2) {
-        const randomMsg = annoyanceMessages[(clickCount - 2) % annoyanceMessages.length];
-        showFloatingAnnoyance(randomMsg);
-      }
-
-      typewriteText("wsp up ?");
-    }
-
-    function showFloatingAnnoyance(msg) {
-      const speech = document.getElementById('annoyanceSpeech');
-      speech.textContent = msg;
-      speech.classList.remove('hidden');
-      setTimeout(() => {
-        if (!isLockedCount) speech.classList.add('hidden');
-      }, 1800);
-    }
-
-    function typewriteText(text) {
-      const target = document.getElementById('typewriterText');
-      clearTimeout(typingTimer);
-      target.textContent = '';
-      let index = 0;
-
-      function step() {
-        if (index < text.length) {
-          target.textContent += text.charAt(index);
-          index++;
-          typingTimer = setTimeout(step, 30);
-        }
-      }
-      step();
-    }
-
-    function handleChoice(type) {
-      const mainBlush = document.getElementById('mainBlushOverlay');
-
-      if (type === 'bio') {
-        typewriteText("I'm Krushna! Artist, Thumbnail Designer & Video Editor crafting cool visual stuff & gaming content 🎨✨");
-      } else if (type === 'work') {
-        typewriteText("no haha (lol)");
-      } else if (type === 'love') {
-        mainBlush.classList.remove('hidden');
-
-        typewriteText("oh really , thanks ! 😳❤️");
-
-        setTimeout(() => {
-          mainBlush.classList.add('hidden');
-        }, 4000);
-      }
-    }
-
-    // 4. Interactive Background Doodles Canvas
+    // 3. Interactive Black Background Doodles Canvas (Push Aside on Interaction)
     (function initDoodles() {
       const canvas = document.getElementById('doodleCanvas');
       const ctx = canvas.getContext('2d');
       let width, height;
 
+      // Doodle Types
       const doodleTypes = ['star', 'ghost', 'crown', 'heart', 'skull', 'sword', 'controller', 'diamond', 'bolt', 'planet'];
       let doodles = [];
 
@@ -762,7 +520,8 @@
         }
       }
 
-      let mouse = { x: -1000, y: -1000 };
+      // Track click & movement positions
+      let mouse = { x: -1000, y: -1000, isClicking: false };
 
       window.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
@@ -796,6 +555,7 @@
         });
       }
 
+      // Render Individual Pixel SVG Doodles
       function drawPixelDoodle(ctx, d) {
         ctx.save();
         ctx.translate(d.x, d.y);
@@ -804,10 +564,11 @@
         ctx.strokeStyle = '#0f172a';
         ctx.lineWidth = 2;
 
-        const s = d.size / 16;
+        const s = d.size / 16; // scaling pixel grid unit
 
         switch(d.type) {
           case 'star':
+            // 4-point pixel star
             ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
             ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
             ctx.fillRect(-4*s, -4*s, 8*s, 8*s);
@@ -829,6 +590,7 @@
           case 'ghost':
             ctx.fillRect(-6*s, -8*s, 12*s, 14*s);
             ctx.fillRect(-8*s, -4*s, 16*s, 8*s);
+            // clear eyes
             ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
             ctx.clearRect(1*s, -4*s, 3*s, 3*s);
             break;
@@ -851,6 +613,7 @@
             ctx.fillRect(0*s, 7*s, 3*s, 4*s);
             break;
           default:
+            // Cross / Sparkle fallback
             ctx.fillRect(-1*s, -7*s, 2*s, 14*s);
             ctx.fillRect(-7*s, -1*s, 14*s, 2*s);
             break;
@@ -863,6 +626,7 @@
         ctx.clearRect(0, 0, width, height);
 
         doodles.forEach(d => {
+          // Repel from cursor hover smooth pushing
           const dx = d.x - mouse.x;
           const dy = d.y - mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
@@ -874,19 +638,21 @@
             d.vy += (dy / dist) * force;
           }
 
+          // Spring return to original coordinates
           const springX = (d.originX - d.x) * 0.035;
           const springY = (d.originY - d.y) * 0.035;
 
           d.vx += springX;
           d.vy += springY;
 
+          // Friction / Damping
           d.vx *= 0.86;
           d.vy *= 0.86;
 
           d.x += d.vx;
           d.y += d.vy;
 
-          ctx.globalAlpha = 0.18;
+          ctx.globalAlpha = 0.18; // Soft subtle doodle opacity
           drawPixelDoodle(ctx, d);
         });
 
@@ -898,24 +664,21 @@
       animate();
     })();
 
-    // 5. Interactive Pixelated Water Ocean Canvas with Physics & Pixel Droplet Splashes
+    // 4. Interactive Pixelated Water Sea Canvas Effect
     window.addEventListener('load', function() {
       const canvas = document.getElementById('waterCanvas');
       const ctx = canvas.getContext('2d');
       
       let width, height;
-      const cols = 90;
+      const cols = 80;
       let points = [];
-      let particles = []; // Pixel water splash particles
       let mouseX = -100;
       let mouseY = -100;
-      let lastMouseX = -100;
-      let lastMouseY = -100;
       let isHovered = false;
 
       function resize() {
         width = canvas.parentElement.clientWidth;
-        height = 190;
+        height = 180;
         canvas.width = width;
         canvas.height = height;
 
@@ -935,73 +698,21 @@
         }
       }
 
-      function triggerSplash(x, force, count = 12) {
-        const nearestIndex = Math.min(Math.max(0, Math.floor((x / width) * cols)), cols - 1);
-        const waterY = points[nearestIndex].y;
-
-        // Apply force to wave points
-        for (let i = 0; i < points.length; i++) {
-          const dist = Math.abs(points[i].x - x);
-          if (dist < 55) {
-            points[i].vy += (55 - dist) * force * 0.15;
-          }
-        }
-
-        // Spawn pixelated splash droplets with particle physics
-        const colors = ['#e0f2fe', '#38bdf8', '#0284c7', '#ffffff'];
-        for (let p = 0; p < count; p++) {
-          const angle = (Math.random() * -Math.PI);
-          const speed = Math.random() * 8 + 3;
-          particles.push({
-            x: x + (Math.random() - 0.5) * 16,
-            y: waterY - 4,
-            vx: Math.cos(angle) * speed * (Math.random() * 0.8 + 0.4),
-            vy: Math.sin(angle) * speed * (Math.random() * 0.9 + 0.5) - (force * 0.8),
-            size: Math.floor(Math.random() * 4) + 4, // Pixel droplet sizes
-            gravity: 0.45,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            life: 1.0,
-            decay: Math.random() * 0.03 + 0.02
-          });
-        }
-      }
-
-      // Track cursor smash and movement
-      canvas.addEventListener('mousemove', (e) => {
+      window.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;
 
-        const speedX = mouseX - lastMouseX;
-        const speedY = mouseY - lastMouseY;
-        const mouseSpeed = Math.sqrt(speedX * speedX + speedY * speedY);
-
-        if (mouseY >= -30 && mouseY <= height + 30) {
+        if (mouseY >= -50 && mouseY <= height + 50) {
           isHovered = true;
-
-          // If moving fast through water surface, create dynamic splashes
-          if (mouseSpeed > 14) {
-            triggerSplash(mouseX, Math.min(mouseSpeed * 0.35, 12), 6);
+          for (let i = 0; i < points.length; i++) {
+            const dist = Math.abs(points[i].x - mouseX);
+            if (dist < 45) {
+              points[i].vy += (45 - dist) * 0.18;
+            }
           }
         } else {
           isHovered = false;
-        }
-
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-      });
-
-      canvas.addEventListener('mousedown', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        triggerSplash(clickX, 14, 24);
-      });
-
-      canvas.addEventListener('touchstart', (e) => {
-        if (e.touches.length > 0) {
-          const rect = canvas.getBoundingClientRect();
-          const touchX = e.touches[0].clientX - rect.left;
-          triggerSplash(touchX, 14, 24);
         }
       });
 
@@ -1011,7 +722,6 @@
         time += 0.04;
         ctx.clearRect(0, 0, width, height);
 
-        // 1. Water Surface Physics Loop
         for (let i = 0; i < points.length; i++) {
           const p = points[i];
           const ambientWave = Math.sin(time * 2 + i * 0.3) * 3 + Math.cos(time * 1.5 + i * 0.2) * 2;
@@ -1021,7 +731,6 @@
           p.y += p.vy;
         }
 
-        // Wave propagation across neighboring points
         for (let iteration = 0; iteration < 2; iteration++) {
           for (let i = 0; i < points.length; i++) {
             if (i > 0) {
@@ -1033,11 +742,11 @@
           }
         }
 
-        // 2. Base Dark Background Layer
+        // 1. Base Layer
         ctx.fillStyle = '#0f172a';
         ctx.fillRect(0, 0, width, height);
 
-        // 3. Mid Deep Ocean Layer (Pixel Step Rendered)
+        // 2. Mid Layer
         ctx.fillStyle = '#1e3a8a';
         ctx.beginPath();
         ctx.moveTo(0, height);
@@ -1050,7 +759,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // 4. Top Active Water Layer
+        // 3. Main Water Layer
         ctx.fillStyle = '#0284c7';
         ctx.beginPath();
         ctx.moveTo(0, height);
@@ -1063,7 +772,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // 5. Foam Surface Line
+        // 4. Foam Line
         ctx.fillStyle = '#e0f2fe';
         for (let i = 0; i < points.length - 1; i++) {
           const stepX = Math.floor(points[i].x / 4) * 4;
@@ -1071,29 +780,7 @@
           ctx.fillRect(stepX, stepY - 4, 8, 4);
         }
 
-        // 6. Update & Render Pixel Splash Particles
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.vy += p.gravity;
-          p.x += p.vx;
-          p.y += p.vy;
-          p.life -= p.decay;
-
-          if (p.life <= 0 || p.y > height) {
-            particles.splice(i, 1);
-            continue;
-          }
-
-          // Draw pixel particle
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = Math.max(0, p.life);
-          const px = Math.floor(p.x / 4) * 4;
-          const py = Math.floor(p.y / 4) * 4;
-          ctx.fillRect(px, py, p.size, p.size);
-          ctx.globalAlpha = 1.0;
-        }
-
-        // 7. Cursor Foam Ring when Hovering Surface
+        // 5. Cursor Splash Foam
         if (isHovered && mouseX > 0 && mouseX < width) {
           ctx.fillStyle = '#ffffff';
           const pixelMouseX = Math.floor(mouseX / 4) * 4;
