@@ -223,85 +223,85 @@
       <div class="w-full flex flex-col md:flex-row items-center md:items-start justify-center gap-4 sm:gap-6 mb-6">
         
         <!-- Avatar Frame Column with 3D Tilt Perspective Wrapper -->
-        <div class="relative group shrink-0 pfp-perspective-container">
-          <!-- Floating Annoyance Bubble -->
-          <div 
-            id="annoyanceSpeech" 
-            class="hidden absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 text-white font-mono text-sm px-3 py-1 border-2 border-slate-900 shadow-md z-30 pointer-events-none"
-          >
-            ouch!
-          </div>
+      /* Pixelated progress bar styling */
+      .pixel-progress-border {
+        border: 4px solid #0f172a;
+        box-shadow: 4px 4px 0px 0px #0f172a;
+      }
+    </style>
+</head>
+<body class="bg-pixel-grid min-h-screen flex flex-col justify-between text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
 
-          <div 
-            id="profileFrame"
-            onclick="onPfpClick()"
-            onmousemove="handlePfpTilt(event)"
-            onmouseleave="resetPfpTilt()"
-            title="Click to talk to Krushna!"
-            class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] cursor-pointer relative select-none"
-          >
-            <img 
-              id="mainPfpImg"
-              src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
-              alt="Krushna Profile Picture"
-              class="w-full h-full object-cover rounded-none bg-slate-100 pointer-events-none"
-              onerror="this.onerror=null; this.src='https://placehold.co/128x128/ffffff/0f172a?text=Krushna';"
-            />
+  <!-- Interactive Background Interactive Doodles Canvas -->
+  <canvas id="doodleCanvas"></canvas>
 
-            <!-- Main PFP Blush Overlay -->
-            <div id="mainBlushOverlay" class="hidden absolute inset-0 flex items-center justify-between px-4 pt-4 pointer-events-none animate-blush">
-              <span class="w-4 h-3 bg-pink-500/80 rounded-full blur-[0.5px]"></span>
-              <span class="w-4 h-3 bg-pink-500/80 rounded-full blur-[0.5px]"></span>
-            </div>
-
-            <!-- Lock Icon overlay when AFK/Locked -->
-            <div id="lockIcon" class="hidden absolute inset-0 bg-slate-900/70 flex items-center justify-center text-white">
-              <i class="fa-solid fa-lock text-2xl"></i>
-            </div>
-          </div>
-
-          <!-- Status Indicator Dot -->
-          <div id="npcStatusTag" class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-slate-900 z-20" title="Online"></div>
+  <!-- Wobbling Pixelated Entry Loading Overlay -->
+  <div id="loadingOverlay" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center p-6 border-8 border-slate-900 transition-all duration-700">
+    <div class="flex flex-col items-center max-w-sm w-full text-center">
+      
+      <!-- Wobbling Profile Preview Box -->
+      <div class="relative mb-6 animate-wobble">
+        <div class="w-24 h-24 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)]">
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
+            alt="Krushna PFP Loader"
+            class="w-full h-full object-cover rounded-none bg-slate-100"
+            onerror="this.onerror=null; this.src='https://placehold.co/96x96/ffffff/0f172a?text=K';"
+          />
         </div>
+      </div>
 
-        <!-- Stardew Valley Side Dialogue Box (Aside Profile Picture) -->
-        <div id="stardewDialogueBox" class="w-full max-w-md bg-white p-4 border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] relative transition-all duration-300">
-          
-          <!-- Stardew Box Header -->
-          <div class="flex items-center justify-between border-b-2 border-slate-900 pb-2 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="font-pixel text-xs text-slate-900 uppercase">KRUSHNA</span>
-              <span class="text-[9px] bg-amber-200 text-amber-900 border border-slate-900 font-pixel px-1.5 py-0.5">NPC</span>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Click avatar to poke</span>
-          </div>
+      <!-- Wobbling Title -->
+      <h2 class="font-pixel text-xl text-slate-900 mb-2 uppercase animate-wobble tracking-widest">
+        KRUSHNA
+      </h2>
+      <p id="loaderStatusText" class="font-mono text-lg text-slate-600 mb-6 tracking-wide">
+        INITIALIZING PIXEL SPACE...
+      </p>
 
-          <!-- Dialogue Typewriter Display -->
-          <div class="bg-slate-100 border-2 border-slate-900 p-2.5 mb-3 min-h-[60px] flex items-center">
-            <p id="typewriterText" class="font-mono text-lg sm:text-xl text-slate-900 leading-snug">
-              wsp up ?
-            </p>
-          </div>
+      <!-- Pixelated Wobbling Progress Bar -->
+      <div class="w-full bg-white p-1.5 mb-6 pixel-progress-border">
+        <div id="progressBar" class="h-5 bg-slate-900 transition-all duration-200 w-0"></div>
+      </div>
 
-          <!-- Dialogue Choices -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-sm sm:text-base">
-            <button onclick="handleChoice('bio')" class="retro-button p-2 bg-slate-50 hover:bg-slate-200 font-bold text-slate-900 text-left sm:text-center truncate">
-              💬 Bio
-            </button>
-            <button onclick="handleChoice('work')" class="retro-button p-2 bg-slate-50 hover:bg-slate-200 font-bold text-slate-900 text-left sm:text-center truncate">
-              💼 Work?
-            </button>
-            <button onclick="handleChoice('love')" class="retro-button p-2 bg-pink-50 hover:bg-pink-100 font-bold text-pink-700 text-left sm:text-center truncate">
-              ❤️ Love
-            </button>
-          </div>
+      <!-- Enter Button (Appears when loaded) -->
+      <button 
+        id="enterBtn" 
+        onclick="dismissLoader()"
+        class="hidden font-pixel text-xs px-6 py-3 bg-slate-900 text-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,0.4)] hover:bg-slate-800 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-wobble"
+      >
+        [ PRESS TO ENTER ]
+      </button>
 
+    </div>
+  </div>
+
+  <!-- Toast Notification for Copy Actions -->
+  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform -translate-y-12 opacity-0 pointer-events-none bg-white text-slate-900 px-5 py-3 rounded-none flex items-center gap-3">
+    <i class="fa-solid fa-square-check text-emerald-600 text-lg"></i>
+    <span id="toast-message" class="font-pixel text-xs tracking-wide">Copied!</span>
+  </div>
+
+  <!-- Main Portfolio Container -->
+  <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-10 pb-6 z-10 relative">
+    
+    <!-- Profile Header Section -->
+    <header class="text-center w-full mb-8 flex flex-col items-center">
+      
+      <!-- Pixel Avatar Frame with Right Tilt Hover Effect -->
+      <div class="relative group mb-6">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform duration-200 ease-out group-hover:scale-105 group-hover:rotate-6">
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
+            alt="Krushna Profile Picture"
+            class="w-full h-full object-cover rounded-none bg-slate-100"
+            onerror="this.onerror=null; this.src='https://placehold.co/128x128/ffffff/0f172a?text=Krushna';"
+          />
         </div>
-
       </div>
 
       <!-- Pixel Username -->
-      <h1 class="font-pixel text-2xl sm:text-3xl tracking-wider text-slate-900 mb-4 uppercase text-center">
+      <h1 class="font-pixel text-2xl sm:text-3xl tracking-wider text-slate-900 mb-4 uppercase">
         Krushna
       </h1>
 
