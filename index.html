@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Krushna | Portfolio & Links</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -12,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome for fallback & UI icons -->
+  <!-- FontAwesome for UI icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script>
@@ -36,7 +37,7 @@
       overflow-x: hidden;
       image-rendering: pixelated;
     }
-    
+
     /* Subtle pixel background grid */
     .bg-pixel-grid {
       background-size: 24px 24px;
@@ -49,7 +50,7 @@
     .pixel-card {
       border: 3px solid #0f172a;
       box-shadow: 4px 4px 0px 0px #0f172a;
-      transition: all 0.15s ease-in-out;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     }
     
     .pixel-card:hover {
@@ -67,7 +68,7 @@
       box-shadow: 2px 2px 0px 0px #0f172a;
     }
 
-    /* Toast Notification Animation */
+    /* Toast Notification */
     #toast {
       transition: opacity 0.2s ease, transform 0.2s ease;
       border: 3px solid #0f172a;
@@ -81,9 +82,83 @@
       height: 180px;
       pointer-events: auto;
     }
+
+    #doodleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Keyframes for Wobbling Pixelated Loader */
+    @keyframes pixel-wobble {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      20% { transform: translate(-3px, 2px) rotate(-1.5deg); }
+      40% { transform: translate(3px, -2px) rotate(1.5deg); }
+      60% { transform: translate(-2px, -3px) rotate(-1deg); }
+      80% { transform: translate(2px, 3px) rotate(1deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .animate-wobble {
+      animation: pixel-wobble 0.35s infinite ease-in-out;
+    }
+
+    /* Pixelated progress bar styling */
+    .pixel-progress-border {
+      border: 4px solid #0f172a;
+      box-shadow: 4px 4px 0px 0px #0f172a;
+    }
   </style>
 </head>
 <body class="bg-pixel-grid min-h-screen flex flex-col justify-between text-slate-900 antialiased selection:bg-slate-900 selection:text-white">
+
+  <!-- Interactive Background Interactive Doodles Canvas -->
+  <canvas id="doodleCanvas"></canvas>
+
+  <!-- Wobbling Pixelated Entry Loading Overlay -->
+  <div id="loadingOverlay" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center p-6 border-8 border-slate-900 transition-all duration-700">
+    <div class="flex flex-col items-center max-w-sm w-full text-center">
+      
+      <!-- Wobbling Profile Preview Box -->
+      <div class="relative mb-6 animate-wobble">
+        <div class="w-24 h-24 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)]">
+          <img 
+            src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
+            alt="Krushna PFP Loader"
+            class="w-full h-full object-cover rounded-none bg-slate-100"
+            onerror="this.onerror=null; this.src='https://placehold.co/96x96/ffffff/0f172a?text=K';"
+          />
+        </div>
+      </div>
+
+      <!-- Wobbling Title -->
+      <h2 class="font-pixel text-xl text-slate-900 mb-2 uppercase animate-wobble tracking-widest">
+        KRUSHNA
+      </h2>
+      <p id="loaderStatusText" class="font-mono text-lg text-slate-600 mb-6 tracking-wide">
+        INITIALIZING PIXEL SPACE...
+      </p>
+
+      <!-- Pixelated Wobbling Progress Bar -->
+      <div class="w-full bg-white p-1.5 mb-6 pixel-progress-border">
+        <div id="progressBar" class="h-5 bg-slate-900 transition-all duration-200 w-0"></div>
+      </div>
+
+      <!-- Enter Button (Appears when loaded) -->
+      <button 
+        id="enterBtn" 
+        onclick="dismissLoader()"
+        class="hidden font-pixel text-xs px-6 py-3 bg-slate-900 text-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,0.4)] hover:bg-slate-800 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-wobble"
+      >
+        [ PRESS TO ENTER ]
+      </button>
+
+    </div>
+  </div>
 
   <!-- Toast Notification for Copy Actions -->
   <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform -translate-y-12 opacity-0 pointer-events-none bg-white text-slate-900 px-5 py-3 rounded-none flex items-center gap-3">
@@ -91,8 +166,8 @@
     <span id="toast-message" class="font-pixel text-xs tracking-wide">Copied!</span>
   </div>
 
-  <!-- Main Container -->
-  <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-10 pb-6 z-10">
+  <!-- Main Portfolio Container -->
+  <main class="w-full max-w-xl mx-auto flex-1 flex flex-col items-center justify-center p-4 sm:p-6 pt-10 pb-6 z-10 relative">
     
     <!-- Profile Header Section -->
     <header class="text-center w-full mb-8 flex flex-col items-center">
@@ -116,14 +191,14 @@
 
       <!-- Roles Pixel Badges -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-4 font-mono text-base font-bold">
-        <span class="pixel-badge px-3 py-1 bg-white text-slate-800">
-          🎨 ARTIST
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
+          <span>🎨</span> ARTIST
         </span>
-        <span class="pixel-badge px-3 py-1 bg-white text-slate-800">
-          🖼️ THUMBNAIL DESIGNER
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
+          <span>🖼️</span> THUMBNAIL DESIGNER
         </span>
-        <span class="pixel-badge px-3 py-1 bg-white text-slate-800">
-          ✂️ EDITOR
+        <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
+          <span>✂️</span> EDITOR
         </span>
       </div>
 
@@ -144,18 +219,20 @@
         class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/youtube_icon_bg.png?raw=true" 
-            alt="YouTube Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-900 bg-red-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/ff0000/ffffff?text=YT';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-red-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/youtube_icon_bg.png?raw=true" 
+              alt="YouTube Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/ff0000/ffffff?text=YT';"
+            />
+          </div>
+          <div class="text-left">
             <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-red-600 transition-colors">YOUTUBE</h2>
             <p class="font-mono text-lg text-slate-500">@krushnaxd133</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-red-500 group-hover:text-white transition-colors">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-red-500 group-hover:text-white transition-colors shrink-0">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -168,18 +245,20 @@
         class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/twitch_icon_bg.png?raw=true" 
-            alt="Twitch Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-900 bg-purple-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/9146ff/ffffff?text=TW';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-purple-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/twitch_icon_bg.png?raw=true" 
+              alt="Twitch Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/9146ff/ffffff?text=TW';"
+            />
+          </div>
+          <div class="text-left">
             <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-purple-600 transition-colors">TWITCH</h2>
             <p class="font-mono text-lg text-slate-500">krushnaxd123</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-purple-600 group-hover:text-white transition-colors shrink-0">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -192,18 +271,20 @@
         class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/instagram_icon_bg.png?raw=true" 
-            alt="Instagram Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-900 bg-pink-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/e1306c/ffffff?text=IG';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-pink-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/instagram_icon_bg.png?raw=true" 
+              alt="Instagram Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/e1306c/ffffff?text=IG';"
+            />
+          </div>
+          <div class="text-left">
             <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-pink-600 transition-colors">INSTAGRAM</h2>
             <p class="font-mono text-lg text-slate-500">@krushna_xd123</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-pink-500 group-hover:text-white transition-colors shrink-0">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -216,18 +297,20 @@
         class="pixel-card bg-white p-3.5 flex items-center justify-between group cursor-pointer"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/kofi_icon_bg.png?raw=true" 
-            alt="Ko-fi Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-900 bg-sky-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/29abe2/ffffff?text=KF';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-sky-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/kofi_icon_bg.png?raw=true" 
+              alt="Ko-fi Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/29abe2/ffffff?text=KF';"
+            />
+          </div>
+          <div class="text-left">
             <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-sky-500 transition-colors">KO-FI</h2>
             <p class="font-mono text-lg text-slate-500">Support my creative work</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-sky-500 group-hover:text-white transition-colors shrink-0">
           <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
         </div>
       </a>
@@ -238,13 +321,15 @@
         class="pixel-card bg-white p-3.5 flex items-center justify-between cursor-pointer group"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/discord_icon_bg.png?raw=true" 
-            alt="Discord Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-900 bg-indigo-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/5865f2/ffffff?text=DC';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-indigo-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/discord_icon_bg.png?raw=true" 
+              alt="Discord Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/5865f2/ffffff?text=DC';"
+            />
+          </div>
+          <div class="text-left">
             <div class="flex items-center gap-2">
               <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">DISCORD</h2>
               <span class="px-1.5 py-0.5 bg-indigo-100 text-indigo-900 border border-slate-900 font-pixel text-[9px]">COPY</span>
@@ -252,7 +337,7 @@
             <p class="font-mono text-lg text-slate-500">krushnaxd133</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
           <i class="fa-regular fa-copy text-sm"></i>
         </div>
       </div>
@@ -263,13 +348,15 @@
         class="pixel-card bg-white p-3.5 flex items-center justify-between cursor-pointer group"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/minecraft_icon_bg.png?raw=true" 
-            alt="Minecraft Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-900 bg-emerald-50"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/55ff55/000000?text=MC';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-900 bg-emerald-50 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/minecraft_icon_bg.png?raw=true" 
+              alt="Minecraft Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/55ff55/000000?text=MC';"
+            />
+          </div>
+          <div class="text-left">
             <div class="flex items-center gap-2">
               <h2 class="font-pixel text-xs sm:text-sm text-slate-900 group-hover:text-emerald-600 transition-colors">MINECRAFT</h2>
               <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-900 border border-slate-900 font-pixel text-[9px]">COPY</span>
@@ -277,7 +364,7 @@
             <p class="font-mono text-lg text-slate-500">krushnaxd133</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-100 border-2 border-slate-900 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-100 border-2 border-slate-900 group-hover:bg-emerald-600 group-hover:text-white transition-colors shrink-0">
           <i class="fa-regular fa-copy text-sm"></i>
         </div>
       </div>
@@ -288,13 +375,15 @@
         style="border: 2px dashed #64748b;"
       >
         <div class="flex items-center gap-4">
-          <img 
-            src="https://github.com/gorillaxd123-png/krushna/blob/main/modrinth_icon_bg.png?raw=true" 
-            alt="Modrinth Icon"
-            class="w-12 h-12 object-cover border-2 border-slate-400 grayscale bg-slate-200"
-            onerror="this.onerror=null; this.src='https://placehold.co/48x48/1bd96a/ffffff?text=MR';"
-          />
-          <div>
+          <div class="w-12 h-12 flex items-center justify-center border-2 border-slate-400 grayscale bg-slate-200 shrink-0">
+            <img 
+              src="https://github.com/gorillaxd123-png/krushna/blob/main/modrinth_icon_bg.png?raw=true" 
+              alt="Modrinth Icon"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/48x48/1bd96a/ffffff?text=MR';"
+            />
+          </div>
+          <div class="text-left">
             <div class="flex items-center gap-2">
               <h2 class="font-pixel text-xs sm:text-sm text-slate-600">MODRINTH</h2>
               <span class="px-1.5 py-0.5 bg-amber-100 text-amber-900 border border-slate-500 font-pixel text-[9px]">SOON</span>
@@ -302,7 +391,7 @@
             <p class="font-mono text-lg text-slate-500">Projects under construction</p>
           </div>
         </div>
-        <div class="px-3 py-1 bg-slate-200 text-slate-400 border border-slate-400">
+        <div class="w-8 h-8 flex items-center justify-center bg-slate-200 text-slate-400 border border-slate-400 shrink-0">
           <i class="fa-solid fa-clock text-xs"></i>
         </div>
       </div>
@@ -312,13 +401,13 @@
     <!-- Footer Text -->
     <footer class="mt-8 text-center font-pixel text-[10px] text-slate-500 tracking-wider uppercase">
       <p>© <span id="year"></span> KRUSHNA • ALL RIGHTS RESERVED</p>
-      <p class="font-mono text-sm text-slate-400 mt-1">Move cursor below to interact with the sea ~</p>
+      <p class="font-mono text-sm text-slate-400 mt-1">Click doodles to push them aside ~</p>
     </footer>
 
   </main>
 
   <!-- Interactive Water Canvas Container at Bottom -->
-  <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4">
+  <div class="w-full relative overflow-hidden bg-slate-900 border-t-4 border-slate-900 mt-4 z-10">
     <canvas id="waterCanvas"></canvas>
   </div>
 
@@ -327,7 +416,35 @@
     // Set current year dynamically
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Clipboard Copy Handler
+    // 1. Wobbling Loader Script
+    (function runLoader() {
+      const progressBar = document.getElementById('progressBar');
+      const statusText = document.getElementById('loaderStatusText');
+      const enterBtn = document.getElementById('enterBtn');
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 18) + 12;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          statusText.textContent = 'READY! CLICK TO ENTER';
+          enterBtn.classList.remove('hidden');
+        }
+        progressBar.style.width = progress + '%';
+      }, 120);
+    })();
+
+    function dismissLoader() {
+      const loader = document.getElementById('loadingOverlay');
+      loader.style.opacity = '0';
+      loader.style.transform = 'scale(1.05)';
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 700);
+    }
+
+    // 2. Clipboard Copy Handler
     function copyText(text, message) {
       const el = document.createElement('textarea');
       el.value = text;
@@ -365,14 +482,195 @@
       }, 2200);
     }
 
-    // Interactive Pixelated Water Sea Canvas Effect
-    window.onload = function() {
+    // 3. Interactive Black Background Doodles Canvas (Push Aside on Interaction)
+    (function initDoodles() {
+      const canvas = document.getElementById('doodleCanvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+
+      // Doodle Types
+      const doodleTypes = ['star', 'ghost', 'crown', 'heart', 'skull', 'sword', 'controller', 'diamond', 'bolt', 'planet'];
+      let doodles = [];
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        createDoodles();
+      }
+
+      function createDoodles() {
+        doodles = [];
+        const count = Math.min(Math.floor((width * height) / 35000), 28);
+        for (let i = 0; i < count; i++) {
+          const originX = Math.random() * (width - 60) + 30;
+          const originY = Math.random() * (height - 60) + 30;
+          doodles.push({
+            x: originX,
+            y: originY,
+            originX: originX,
+            originY: originY,
+            vx: 0,
+            vy: 0,
+            size: Math.floor(Math.random() * 8) + 20,
+            type: doodleTypes[i % doodleTypes.length],
+            angle: (Math.random() - 0.5) * 0.4
+          });
+        }
+      }
+
+      // Track click & movement positions
+      let mouse = { x: -1000, y: -1000, isClicking: false };
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      window.addEventListener('mousedown', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        pushDoodlesNear(mouse.x, mouse.y, 180, 22);
+      });
+
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+          pushDoodlesNear(mouse.x, mouse.y, 180, 22);
+        }
+      });
+
+      function pushDoodlesNear(px, py, radius, forceMultiplier) {
+        doodles.forEach(d => {
+          const dx = d.x - px;
+          const dy = d.y - py;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < radius && dist > 0) {
+            const force = (radius - dist) / radius * forceMultiplier;
+            d.vx += (dx / dist) * force;
+            d.vy += (dy / dist) * force;
+          }
+        });
+      }
+
+      // Render Individual Pixel SVG Doodles
+      function drawPixelDoodle(ctx, d) {
+        ctx.save();
+        ctx.translate(d.x, d.y);
+        ctx.rotate(d.angle);
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+
+        const s = d.size / 16; // scaling pixel grid unit
+
+        switch(d.type) {
+          case 'star':
+            // 4-point pixel star
+            ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
+            ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
+            ctx.fillRect(-4*s, -4*s, 8*s, 8*s);
+            break;
+          case 'heart':
+            ctx.fillRect(-6*s, -6*s, 5*s, 4*s);
+            ctx.fillRect(1*s, -6*s, 5*s, 4*s);
+            ctx.fillRect(-8*s, -3*s, 16*s, 5*s);
+            ctx.fillRect(-6*s, 2*s, 12*s, 4*s);
+            ctx.fillRect(-3*s, 6*s, 6*s, 3*s);
+            ctx.fillRect(-1*s, 9*s, 2*s, 2*s);
+            break;
+          case 'crown':
+            ctx.fillRect(-8*s, -6*s, 3*s, 12*s);
+            ctx.fillRect(5*s, -6*s, 3*s, 12*s);
+            ctx.fillRect(-2*s, -3*s, 4*s, 9*s);
+            ctx.fillRect(-8*s, 3*s, 16*s, 4*s);
+            break;
+          case 'ghost':
+            ctx.fillRect(-6*s, -8*s, 12*s, 14*s);
+            ctx.fillRect(-8*s, -4*s, 16*s, 8*s);
+            // clear eyes
+            ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
+            ctx.clearRect(1*s, -4*s, 3*s, 3*s);
+            break;
+          case 'skull':
+            ctx.fillRect(-6*s, -8*s, 12*s, 10*s);
+            ctx.fillRect(-4*s, 2*s, 8*s, 5*s);
+            ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
+            ctx.clearRect(1*s, -4*s, 3*s, 3*s);
+            break;
+          case 'diamond':
+            ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
+            ctx.fillRect(-6*s, -4*s, 12*s, 8*s);
+            ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
+            break;
+          case 'bolt':
+            ctx.fillRect(-2*s, -8*s, 6*s, 4*s);
+            ctx.fillRect(-4*s, -4*s, 6*s, 4*s);
+            ctx.fillRect(-6*s, 0*s, 12*s, 3*s);
+            ctx.fillRect(-2*s, 3*s, 5*s, 4*s);
+            ctx.fillRect(0*s, 7*s, 3*s, 4*s);
+            break;
+          default:
+            // Cross / Sparkle fallback
+            ctx.fillRect(-1*s, -7*s, 2*s, 14*s);
+            ctx.fillRect(-7*s, -1*s, 14*s, 2*s);
+            break;
+        }
+
+        ctx.restore();
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        doodles.forEach(d => {
+          // Repel from cursor hover smooth pushing
+          const dx = d.x - mouse.x;
+          const dy = d.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const pushRadius = 110;
+
+          if (dist < pushRadius && dist > 0) {
+            const force = (pushRadius - dist) / pushRadius * 1.8;
+            d.vx += (dx / dist) * force;
+            d.vy += (dy / dist) * force;
+          }
+
+          // Spring return to original coordinates
+          const springX = (d.originX - d.x) * 0.035;
+          const springY = (d.originY - d.y) * 0.035;
+
+          d.vx += springX;
+          d.vy += springY;
+
+          // Friction / Damping
+          d.vx *= 0.86;
+          d.vy *= 0.86;
+
+          d.x += d.vx;
+          d.y += d.vy;
+
+          ctx.globalAlpha = 0.18; // Soft subtle doodle opacity
+          drawPixelDoodle(ctx, d);
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+    })();
+
+    // 4. Interactive Pixelated Water Sea Canvas Effect
+    window.addEventListener('load', function() {
       const canvas = document.getElementById('waterCanvas');
       const ctx = canvas.getContext('2d');
       
       let width, height;
-      const cols = 80; // Pixelated horizontal columns
-      let rows = 12;
+      const cols = 80;
       let points = [];
       let mouseX = -100;
       let mouseY = -100;
@@ -395,13 +693,11 @@
             x: i * spacing,
             y: height * 0.45,
             targetY: height * 0.45,
-            vy: 0,
-            force: 0
+            vy: 0
           });
         }
       }
 
-      // Track cursor position on canvas or page bottom
       window.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         mouseX = e.clientX - rect.left;
@@ -409,7 +705,6 @@
 
         if (mouseY >= -50 && mouseY <= height + 50) {
           isHovered = true;
-          // Disturb water points near mouse
           for (let i = 0; i < points.length; i++) {
             const dist = Math.abs(points[i].x - mouseX);
             if (dist < 45) {
@@ -421,61 +716,37 @@
         }
       });
 
-      // Touch support
-      window.addEventListener('touchmove', (e) => {
-        if (e.touches.length > 0) {
-          const rect = canvas.getBoundingClientRect();
-          mouseX = e.touches[0].clientX - rect.left;
-          mouseY = e.touches[0].clientY - rect.top;
-
-          for (let i = 0; i < points.length; i++) {
-            const dist = Math.abs(points[i].x - mouseX);
-            if (dist < 45) {
-              points[i].vy += (45 - dist) * 0.2;
-            }
-          }
-        }
-      });
-
       let time = 0;
 
       function animate() {
         time += 0.04;
         ctx.clearRect(0, 0, width, height);
 
-        // Physics wave calculation
         for (let i = 0; i < points.length; i++) {
           const p = points[i];
-          // Base natural ambient sine wave
           const ambientWave = Math.sin(time * 2 + i * 0.3) * 3 + Math.cos(time * 1.5 + i * 0.2) * 2;
-          
           const dy = p.targetY + ambientWave - p.y;
-          p.vy += dy * 0.04; // Springiness
-          p.vy *= 0.88;      // Damping
+          p.vy += dy * 0.04;
+          p.vy *= 0.88;
           p.y += p.vy;
         }
 
-        // Propagate wave neighboring forces for realistic wave propagation
         for (let iteration = 0; iteration < 2; iteration++) {
           for (let i = 0; i < points.length; i++) {
             if (i > 0) {
-              const leftDiff = 0.25 * (points[i].y - points[i - 1].y);
-              points[i - 1].vy += leftDiff;
+              points[i - 1].vy += 0.25 * (points[i].y - points[i - 1].y);
             }
             if (i < points.length - 1) {
-              const rightDiff = 0.25 * (points[i].y - points[i + 1].y);
-              points[i + 1].vy += rightDiff;
+              points[i + 1].vy += 0.25 * (points[i].y - points[i + 1].y);
             }
           }
         }
 
-        // Draw Deep Water Layers with Pixel Steps
-        
-        // 1. Far Deep Water Layer
+        // 1. Base Layer
         ctx.fillStyle = '#0f172a';
         ctx.fillRect(0, 0, width, height);
 
-        // 2. Mid Ocean Layer
+        // 2. Mid Layer
         ctx.fillStyle = '#1e3a8a';
         ctx.beginPath();
         ctx.moveTo(0, height);
@@ -488,12 +759,11 @@
         ctx.closePath();
         ctx.fill();
 
-        // 3. Top Interactive Ocean Wave Layer
+        // 3. Main Water Layer
         ctx.fillStyle = '#0284c7';
         ctx.beginPath();
         ctx.moveTo(0, height);
         for (let i = 0; i < points.length; i++) {
-          // Pixelate coordinates for retro feel
           const stepX = Math.floor(points[i].x / 4) * 4;
           const stepY = Math.floor(points[i].y / 4) * 4;
           ctx.lineTo(stepX, stepY);
@@ -502,7 +772,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // 4. White Crest Pixel Foam Lines
+        // 4. Foam Line
         ctx.fillStyle = '#e0f2fe';
         for (let i = 0; i < points.length - 1; i++) {
           const stepX = Math.floor(points[i].x / 4) * 4;
@@ -510,14 +780,13 @@
           ctx.fillRect(stepX, stepY - 4, 8, 4);
         }
 
-        // 5. Interactive Cursor Splash Dots
+        // 5. Cursor Splash Foam
         if (isHovered && mouseX > 0 && mouseX < width) {
           ctx.fillStyle = '#ffffff';
           const pixelMouseX = Math.floor(mouseX / 4) * 4;
-          const nearestPointIndex = Math.min(Math.max(0, Math.floor((mouseX / width) * cols)), cols - 1);
-          const pixelWaterY = Math.floor(points[nearestPointIndex].y / 4) * 4;
+          const nearestIndex = Math.min(Math.max(0, Math.floor((mouseX / width) * cols)), cols - 1);
+          const pixelWaterY = Math.floor(points[nearestIndex].y / 4) * 4;
 
-          // Draw pixel foam splash where cursor touches water
           ctx.fillRect(pixelMouseX - 8, pixelWaterY - 8, 6, 6);
           ctx.fillRect(pixelMouseX + 6, pixelWaterY - 12, 4, 4);
           ctx.fillRect(pixelMouseX - 16, pixelWaterY - 4, 4, 4);
@@ -529,7 +798,7 @@
       window.addEventListener('resize', resize);
       resize();
       animate();
-    };
+    });
   </script>
 
 </body>
