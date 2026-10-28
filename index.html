@@ -140,7 +140,7 @@
         KRUSHNA
       </h2>
       <p id="loaderStatusText" class="font-mono text-lg text-slate-600 mb-6 tracking-wide">
-        INITIALIZING PORTFOLIO...
+        INITIALIZING PIXEL SPACE...
       </p>
 
       <!-- Pixelated Wobbling Progress Bar -->
@@ -154,7 +154,7 @@
         onclick="dismissLoader()"
         class="hidden font-pixel text-xs px-6 py-3 bg-slate-900 text-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,0.4)] hover:bg-slate-800 hover:scale-105 active:scale-95 transition-all cursor-pointer animate-wobble"
       >
-        [ PRESS TO HOP ON ]
+        [ PRESS TO ENTER ]
       </button>
 
     </div>
@@ -174,7 +174,7 @@
       
       <!-- Pixel Avatar Frame -->
       <div class="relative group mb-6">
-        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform duration-300 ease-out group-hover:scale-105 group-hover:rotate-6">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 p-1.5 bg-white border-4 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-transform group-hover:scale-105">
           <img 
             src="https://github.com/gorillaxd123-png/krushna/blob/main/Krushna%20Best%20Pfp.png?raw=true" 
             alt="Krushna Profile Picture"
@@ -192,19 +192,19 @@
       <!-- Roles Pixel Badges -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-4 font-mono text-base font-bold">
         <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
-          <span>🥀</span> ARTIST
+          <span>🎨</span> ARTIST
         </span>
         <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
           <span>🖼️</span> THUMBNAIL DESIGNER
         </span>
         <span class="pixel-badge px-3 py-1 bg-white text-slate-800 flex items-center gap-1.5">
-          <span>📹</span> EDITOR
+          <span>✂️</span> EDITOR
         </span>
       </div>
 
       <!-- Bio / Intro Subtitle -->
       <p class="font-mono text-xl text-slate-600 max-w-md">
-        Just A Guy Who Loves Learning New Stuff
+        Welcome to my pixel space. My links, socials & creations!
       </p>
     </header>
 
@@ -385,411 +385,4 @@
           </div>
           <div class="text-left">
             <div class="flex items-center gap-2">
-              <h2 class="font-pixel text-xs sm:text-sm text-slate-600">MODRINTH</h2>
-              <span class="px-1.5 py-0.5 bg-amber-100 text-amber-900 border border-slate-500 font-pixel text-[9px]">SOON</span>
-            </div>
-            <p class="font-mono text-lg text-slate-500">Projects under construction</p>
-          </div>
-        </div>
-        <div class="w-8 h-8 flex items-center justify-center bg-slate-200 text-slate-400 border border-slate-400 shrink-0">
-          <i class="fa-solid fa-clock text-xs"></i>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- Footer Text -->
-    <footer class="mt-8 text-center font-pixel text-[10px] text-slate-500 tracking-wider uppercase">
-      <p>© <span id="year"></span> KRUSHNA • ALL RIGHTS RESERVED</p>
-      <p class="font-mono text-sm text-slate-400 mt-1">Click doodles to push them aside ~</p>
-    </footer>
-
-  </main>
-
-  <!-- Interactive Water Canvas Container at Bottom -->
-  <div class="w-full relative overflow-hidden mt-4 z-10">
-    <canvas id="waterCanvas"></canvas>
-  </div>
-
-  <!-- Interactivity Scripts -->
-  <script>
-    // Set current year dynamically
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // 1. Wobbling Loader Script
-    (function runLoader() {
-      const progressBar = document.getElementById('progressBar');
-      const statusText = document.getElementById('loaderStatusText');
-      const enterBtn = document.getElementById('enterBtn');
-      let progress = 0;
-
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 18) + 12;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          statusText.textContent = 'READY! CLICK TO ENTER';
-          enterBtn.classList.remove('hidden');
-        }
-        progressBar.style.width = progress + '%';
-      }, 120);
-    })();
-
-    function dismissLoader() {
-      const loader = document.getElementById('loadingOverlay');
-      loader.style.opacity = '0';
-      loader.style.transform = 'scale(1.05)';
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 700);
-    }
-
-    // 2. Clipboard Copy Handler
-    function copyText(text, message) {
-      const el = document.createElement('textarea');
-      el.value = text;
-      el.setAttribute('readonly', '');
-      el.style.position = 'absolute';
-      el.style.left = '-9999px';
-      document.body.appendChild(el);
-      el.select();
-      
-      try {
-        document.execCommand('copy');
-        showToast(message);
-      } catch (err) {
-        showToast('Failed to copy');
-      }
-      
-      document.body.removeChild(el);
-    }
-
-    // Toast Notification logic
-    let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-      
-      toastMessage.textContent = message;
-      clearTimeout(toastTimeout);
-      
-      toast.classList.remove('opacity-0', '-translate-y-12', 'pointer-events-none');
-      toast.classList.add('opacity-100', 'translate-y-0');
-      
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', '-translate-y-12', 'pointer-events-none');
-      }, 2200);
-    }
-
-    // 3. Interactive Background Doodles Canvas
-    (function initDoodles() {
-      const canvas = document.getElementById('doodleCanvas');
-      const ctx = canvas.getContext('2d');
-      let width, height;
-
-      // Doodle Types
-      const doodleTypes = ['star', 'ghost', 'crown', 'heart', 'skull', 'sword', 'controller', 'diamond', 'bolt', 'planet'];
-      let doodles = [];
-
-      function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        createDoodles();
-      }
-
-      function createDoodles() {
-        doodles = [];
-        const count = Math.min(Math.floor((width * height) / 35000), 28);
-        for (let i = 0; i < count; i++) {
-          const originX = Math.random() * (width - 60) + 30;
-          const originY = Math.random() * (height - 60) + 30;
-          doodles.push({
-            x: originX,
-            y: originY,
-            originX: originX,
-            originY: originY,
-            vx: 0,
-            vy: 0,
-            size: Math.floor(Math.random() * 8) + 20,
-            type: doodleTypes[i % doodleTypes.length],
-            angle: (Math.random() - 0.5) * 0.4
-          });
-        }
-      }
-
-      // Track click & movement positions
-      let mouse = { x: -1000, y: -1000, isClicking: false };
-
-      window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-
-      window.addEventListener('mousedown', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-        pushDoodlesNear(mouse.x, mouse.y, 180, 22);
-      });
-
-      window.addEventListener('touchstart', (e) => {
-        if (e.touches.length > 0) {
-          mouse.x = e.touches[0].clientX;
-          mouse.y = e.touches[0].clientY;
-          pushDoodlesNear(mouse.x, mouse.y, 180, 22);
-        }
-      });
-
-      function pushDoodlesNear(px, py, radius, forceMultiplier) {
-        doodles.forEach(d => {
-          const dx = d.x - px;
-          const dy = d.y - py;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < radius && dist > 0) {
-            const force = (radius - dist) / radius * forceMultiplier;
-            d.vx += (dx / dist) * force;
-            d.vy += (dy / dist) * force;
-          }
-        });
-      }
-
-      // Render Individual Pixel SVG Doodles
-      function drawPixelDoodle(ctx, d) {
-        ctx.save();
-        ctx.translate(d.x, d.y);
-        ctx.rotate(d.angle);
-        ctx.fillStyle = '#0f172a';
-        ctx.strokeStyle = '#0f172a';
-        ctx.lineWidth = 2;
-
-        const s = d.size / 16; // scaling pixel grid unit
-
-        switch(d.type) {
-          case 'star':
-            ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
-            ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
-            ctx.fillRect(-4*s, -4*s, 8*s, 8*s);
-            break;
-          case 'heart':
-            ctx.fillRect(-6*s, -6*s, 5*s, 4*s);
-            ctx.fillRect(1*s, -6*s, 5*s, 4*s);
-            ctx.fillRect(-8*s, -3*s, 16*s, 5*s);
-            ctx.fillRect(-6*s, 2*s, 12*s, 4*s);
-            ctx.fillRect(-3*s, 6*s, 6*s, 3*s);
-            ctx.fillRect(-1*s, 9*s, 2*s, 2*s);
-            break;
-          case 'crown':
-            ctx.fillRect(-8*s, -6*s, 3*s, 12*s);
-            ctx.fillRect(5*s, -6*s, 3*s, 12*s);
-            ctx.fillRect(-2*s, -3*s, 4*s, 9*s);
-            ctx.fillRect(-8*s, 3*s, 16*s, 4*s);
-            break;
-          case 'ghost':
-            ctx.fillRect(-6*s, -8*s, 12*s, 14*s);
-            ctx.fillRect(-8*s, -4*s, 16*s, 8*s);
-            ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
-            ctx.clearRect(1*s, -4*s, 3*s, 3*s);
-            break;
-          case 'skull':
-            ctx.fillRect(-6*s, -8*s, 12*s, 10*s);
-            ctx.fillRect(-4*s, 2*s, 8*s, 5*s);
-            ctx.clearRect(-4*s, -4*s, 3*s, 3*s);
-            ctx.clearRect(1*s, -4*s, 3*s, 3*s);
-            break;
-          case 'diamond':
-            ctx.fillRect(-2*s, -8*s, 4*s, 16*s);
-            ctx.fillRect(-6*s, -4*s, 12*s, 8*s);
-            ctx.fillRect(-8*s, -2*s, 16*s, 4*s);
-            break;
-          case 'bolt':
-            ctx.fillRect(-2*s, -8*s, 6*s, 4*s);
-            ctx.fillRect(-4*s, -4*s, 6*s, 4*s);
-            ctx.fillRect(-6*s, 0*s, 12*s, 3*s);
-            ctx.fillRect(-2*s, 3*s, 5*s, 4*s);
-            ctx.fillRect(0*s, 7*s, 3*s, 4*s);
-            break;
-          default:
-            ctx.fillRect(-1*s, -7*s, 2*s, 14*s);
-            ctx.fillRect(-7*s, -1*s, 14*s, 2*s);
-            break;
-        }
-
-        ctx.restore();
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-
-        doodles.forEach(d => {
-          const dx = d.x - mouse.x;
-          const dy = d.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const pushRadius = 110;
-
-          if (dist < pushRadius && dist > 0) {
-            const force = (pushRadius - dist) / pushRadius * 1.8;
-            d.vx += (dx / dist) * force;
-            d.vy += (dy / dist) * force;
-          }
-
-          const springX = (d.originX - d.x) * 0.035;
-          const springY = (d.originY - d.y) * 0.035;
-
-          d.vx += springX;
-          d.vy += springY;
-
-          d.vx *= 0.86;
-          d.vy *= 0.86;
-
-          d.x += d.vx;
-          d.y += d.vy;
-
-          ctx.globalAlpha = 0.18;
-          drawPixelDoodle(ctx, d);
-        });
-
-        requestAnimationFrame(animate);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-      animate();
-    })();
-
-    // 4. Interactive Pixelated Water Sea Canvas Effect
-    window.addEventListener('load', function() {
-      const canvas = document.getElementById('waterCanvas');
-      const ctx = canvas.getContext('2d');
-      
-      let width, height;
-      const cols = 80;
-      let points = [];
-      let mouseX = -100;
-      let mouseY = -100;
-      let isHovered = false;
-
-      function resize() {
-        width = canvas.parentElement.clientWidth;
-        height = 180;
-        canvas.width = width;
-        canvas.height = height;
-
-        initPoints();
-      }
-
-      function initPoints() {
-        points = [];
-        const spacing = width / (cols - 1);
-        for (let i = 0; i < cols; i++) {
-          points.push({
-            x: i * spacing,
-            y: height * 0.45,
-            targetY: height * 0.45,
-            vy: 0
-          });
-        }
-      }
-
-      window.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
-
-        if (mouseY >= -50 && mouseY <= height + 50) {
-          isHovered = true;
-          for (let i = 0; i < points.length; i++) {
-            const dist = Math.abs(points[i].x - mouseX);
-            if (dist < 45) {
-              points[i].vy += (45 - dist) * 0.18;
-            }
-          }
-        } else {
-          isHovered = false;
-        }
-      });
-
-      let time = 0;
-
-      function animate() {
-        time += 0.04;
-        ctx.clearRect(0, 0, width, height);
-
-        for (let i = 0; i < points.length; i++) {
-          const p = points[i];
-          const ambientWave = Math.sin(time * 2 + i * 0.3) * 3 + Math.cos(time * 1.5 + i * 0.2) * 2;
-          const dy = p.targetY + ambientWave - p.y;
-          p.vy += dy * 0.04;
-          p.vy *= 0.88;
-          p.y += p.vy;
-        }
-
-        for (let iteration = 0; iteration < 2; iteration++) {
-          for (let i = 0; i < points.length; i++) {
-            if (i > 0) {
-              points[i - 1].vy += 0.25 * (points[i].y - points[i - 1].y);
-            }
-            if (i < points.length - 1) {
-              points[i + 1].vy += 0.25 * (points[i].y - points[i + 1].y);
-            }
-          }
-        }
-
-        // 1. Mid Layer
-        ctx.fillStyle = '#1e3a8a';
-        ctx.beginPath();
-        ctx.moveTo(0, height);
-        for (let i = 0; i < points.length; i++) {
-          const stepX = Math.floor(points[i].x / 4) * 4;
-          const stepY = Math.floor((points[i].y - 12) / 4) * 4;
-          ctx.lineTo(stepX, stepY);
-        }
-        ctx.lineTo(width, height);
-        ctx.closePath();
-        ctx.fill();
-
-        // 2. Main Water Layer
-        ctx.fillStyle = '#0284c7';
-        ctx.beginPath();
-        ctx.moveTo(0, height);
-        for (let i = 0; i < points.length; i++) {
-          const stepX = Math.floor(points[i].x / 4) * 4;
-          const stepY = Math.floor(points[i].y / 4) * 4;
-          ctx.lineTo(stepX, stepY);
-        }
-        ctx.lineTo(width, height);
-        ctx.closePath();
-        ctx.fill();
-
-        // 3. Foam Line
-        ctx.fillStyle = '#e0f2fe';
-        for (let i = 0; i < points.length - 1; i++) {
-          const stepX = Math.floor(points[i].x / 4) * 4;
-          const stepY = Math.floor(points[i].y / 4) * 4;
-          ctx.fillRect(stepX, stepY - 4, 8, 4);
-        }
-
-        // 4. Cursor Splash Foam
-        if (isHovered && mouseX > 0 && mouseX < width) {
-          ctx.fillStyle = '#ffffff';
-          const pixelMouseX = Math.floor(mouseX / 4) * 4;
-          const nearestIndex = Math.min(Math.max(0, Math.floor((mouseX / width) * cols)), cols - 1);
-          const pixelWaterY = Math.floor(points[nearestIndex].y / 4) * 4;
-
-          ctx.fillRect(pixelMouseX - 8, pixelWaterY - 8, 6, 6);
-          ctx.fillRect(pixelMouseX + 6, pixelWaterY - 12, 4, 4);
-          ctx.fillRect(pixelMouseX - 16, pixelWaterY - 4, 4, 4);
-        }
-
-        requestAnimationFrame(animate);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-      animate();
-    });
-  </script>
-
-</body>
-</html>
+              <h2 class="font-pixel
